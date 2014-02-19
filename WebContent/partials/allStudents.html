@@ -1,7 +1,10 @@
+
 <div class="container">
+	Search: <input ng-model="searchText"><br><br>
 	<ul class="list-group">
-		<ui ng-repeat="student in students" class="list-group-item">
-		{{student.englishLastName}}, {{student.englishFirstName}} -
-		{{student.chineseLastName}}{{student.chineseFirstName}}</ui>
+		<ui ng-repeat="student in students | filter:searchText"
+			class="list-group-item"> {{student.englishLastName}},
+		{{student.englishFirstName}} -
+		{{student.chineseLastName}}{{student.chineseFirstName}} - {{student.gradYear}}</ui>
 	</ul>
 </div>
