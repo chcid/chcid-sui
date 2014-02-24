@@ -1,10 +1,45 @@
 
-<div class="container">
-	Search: <input ng-model="searchText"><br><br>
-	<ul class="list-group">
-		<ui ng-repeat="student in students | filter:searchText"
-			class="list-group-item"> {{student.englishLastName}},
-		{{student.englishFirstName}} -
-		{{student.chineseLastName}}{{student.chineseFirstName}} - {{student.gradYear}}</ui>
-	</ul>
+<div id="delete" class="container">
+	Filter: <input ng-model="filterText"><br> <br>
+	<table class="table table-striped" ng-init="predicate = 'gradYear'">
+		<thead>
+			<tr>
+				<th><a href=""
+					ng-click="predicate = 'chineseLastName';
+					reverse=!reverse">姓</a></th>
+				<th><a href=""
+					ng-click="predicate = 'chineseFirstName';
+					reverse=!reverse">名</a></th>
+				<th><a href=""
+					ng-click="predicate = 'englishLastName';
+					reverse=!reverse">Last
+						Name</a></th>
+				<th><a href=""
+					ng-click="predicate = 'englishFirstName';
+					reverse=!reverse">First
+						Name</a></th>
+				<th><a href=""
+					ng-click="predicate = 'gradYear';
+					reverse=!reverse">年次</a></th>
+				<th>action <a class="btn btn-default btn-sm" href="#"> <i
+						class="fa fa-plus fa-lg"></i></a></th>
+			</tr>
+		</thead>
+		<tbody>
+			`
+			<tr
+				ng-repeat="student in students | filter:filterText | orderBy:predicate:reverse">
+				<td>{{student.chineseLastName}}</td>
+				<td>{{student.chineseFirstName}}</td>
+				<td>{{student.englishLastName}},</td>
+				<td>{{student.englishFirstName}}</td>
+				<td>{{student.gradYear}}</td>
+				<td><a class="btn btn-default btn-sm" href="#"> <i
+						class="fa fa-pencil fa-lg"></i></a><a class="btn btn-danger btn-sm"
+					data-toggle="confirmation-popout" data-placement="left"
+					data-original-title="" title=""> <i class="fa fa-trash-o fa-lg"></i>
+				</a></td>
+			</tr>
+		</tbody>
+	</table>
 </div>

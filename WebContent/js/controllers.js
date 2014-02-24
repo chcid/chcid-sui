@@ -9,7 +9,7 @@ angular.module('speechApp.controllers', []).controller('allStudentController',
 				$scope.students = studentFactory.query();
 			};
 			refreshData();
-			var t = setInterval(refreshData, 5000);
+			//var t = setInterval(refreshData, 5000);
 		} ]);
 
 // //////////////////////////////////////////////
