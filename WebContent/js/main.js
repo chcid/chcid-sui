@@ -7,7 +7,7 @@
 	});
 });*/
 
-!function($) {
+/*!function($) {
 
 	$(function() {
 
@@ -22,4 +22,4 @@
 
 	})
 
-}(window.jQuery)
+}(window.jQuery)*/

@@ -10,9 +10,13 @@ var studentServices = angular.module('studentServices', [ 'ngResource' ]);
 
 studentServices.factory('studentFactory', [ '$resource', function($resource) {
 	return $resource('/speechservice/student', {}, {
-		query : {
+		getAllStudents : {
 			method : 'GET',
 			isArray : true
+		},
+		deleteStudent : {
+			method : 'DELETE',
+			isArray : false
 		}
 	});
 } ]);

@@ -2,15 +2,71 @@
 
 /* Controllers */
 
-angular.module('speechApp.controllers', []).controller('allStudentController',
-		[ '$scope', 'studentFactory', function($scope, studentFactory) {
+angular
+		.module('speechApp.controllers', [])
+		.controller(
+				'allStudentController',
+				[
+						'$scope',
+						'dataFactory',
+						function($scope, dataFactory) {
 
-			var refreshData = function() {
-				$scope.students = studentFactory.query();
-			};
-			refreshData();
-			//var t = setInterval(refreshData, 5000);
-		} ]);
+							$scope.status;
+							$scope.students;
+
+							getAllStudents();
+
+							function getAllStudents() {
+								dataFactory
+										.getAllStudents()
+										.success(function(students) {
+											$scope.students = students;
+										})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load student data: '
+															+ error.message;
+												});
+							}
+
+							function deleteStudent(idstudent) {
+								dataFactory
+										.deleteStudent(idstudent)
+										.success(function(result) {
+
+										})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to delete student data: '
+															+ error.message;
+												});
+							}
+
+							var refreshData = function() {
+								$scope.students = studentFactory
+										.getAllStudents();
+							};
+							// refreshData();
+							// $scope.students = dataFactory.getAllStudents();
+
+							$scope.doDelete = function(student) {
+								bootbox
+										.confirm(
+												"Are you sure you want to delete this student: "
+														+ student.chineseLastName
+														+ student.chineseFirstName,
+												function(result) {
+													if (result) {
+														deleteStudent(student.idstudent);
+														console
+																.log("Student "
+																		+ student.idstudent
+																		+ " deleted");
+													}
+												});
+							};
+							// var t = setInterval(refreshData, 5000);
+						} ]);
 
 // //////////////////////////////////////////////
 

@@ -1,5 +1,5 @@
 
-<div id="delete" class="container">
+<div class="container">
 	Filter: <input ng-model="filterText"><br> <br>
 	<table class="table table-striped" ng-init="predicate = 'gradYear'">
 		<thead>
@@ -34,10 +34,10 @@
 				<td>{{student.englishLastName}},</td>
 				<td>{{student.englishFirstName}}</td>
 				<td>{{student.gradYear}}</td>
-				<td><a class="btn btn-default btn-sm" href="#"> <i
-						class="fa fa-pencil fa-lg"></i></a><a class="btn btn-danger btn-sm"
-					data-toggle="confirmation-popout" data-placement="left"
-					data-original-title="" title=""> <i class="fa fa-trash-o fa-lg"></i>
+				<td><a ng-click="doEdit()" class="btn btn-default btn-sm"
+					href=""> <i class="fa fa-pencil fa-lg"></i>
+				</a><a ng-click='doDelete(student)' class="btn btn-danger btn-sm"> <i
+						class="fa fa-trash-o fa-lg"></i>
 				</a></td>
 			</tr>
 		</tbody>
