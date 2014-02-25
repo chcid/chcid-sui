@@ -2,8 +2,7 @@
 
 angular.module('speechApp', [
                          'ngRoute',
-                         'speechApp.controllers',
-                         'studentServices'
+                         'speechApp.controllers'
                        ]).
                        config(['$routeProvider', function($routeProvider) {
                          $routeProvider.when('/viewAllStudents', {templateUrl: 'partials/allStudents.html', controller: 'allStudentController'});
