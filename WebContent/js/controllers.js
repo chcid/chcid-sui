@@ -48,68 +48,35 @@ angular
 							};
 							// refreshData();
 							// $scope.students = dataFactory.getAllStudents();
+							$scope.studentToUpdate = {};
 
-							$scope.doUpdate = function() {
-								bootbox.form({
-									title : 'User details',
-									fields : {
-										name : {
-											label : 'Name',
-											value : 'John Connor',
-											type : 'text'
-										},
-										email : {
-											label : 'E-mail',
-											type : 'email',
-											value : 'johnconnor@skynet.com'
-										},
-										type : {
-											label : 'Type',
-											type : 'select',
-											options : [ {
-												value : 1,
-												text : 'Human'
-											}, {
-												value : 2,
-												text : 'Robot'
-											} ]
-										},
-										alive : {
-											label : 'Is alive',
-											type : 'checkbox',
-											value : true
-										},
-										loves : {
-											label : 'Loves',
-											type : 'checkbox',
-											value : [ 'bike', 'mom', 'vg' ],
-											options : [ {
-												value : 'bike',
-												text : 'Motorbike'
-											}, {
-												value : 'mom',
-												text : 'His mom'
-											}, {
-												value : 'vg',
-												text : 'Video games'
-											}, {
-												value : 'kill',
-												text : 'Killing people'
-											} ]
-										},
-										passwd : {
-											label : 'Password',
-											type : 'password'
-										},
-										desc : {
-											label : 'Description',
-											type : 'textarea'
-										}
-									},
-									callback : function(values) {
-										console.log(values)
-									}
-								});
+							$scope.doUpdate = function(student) {
+								$scope.studentToUpdate = angular.copy(student);
+								// alert($scope.studentToUpdate.chineseLastName);
+							};
+
+							$scope.doCreate = function() {
+								if (!$scope.studentToUpdate) {
+									$scope.studentToUpdate = {};
+								}
+							};
+
+							$scope.submitUpdate = function(student) {
+								if (student.idstudent) {
+									updateStudent(student);
+									console.log("Student "
+											+ student.chineseLastName
+											+ student.chineseFirstName
+											+ " updated");
+									$scope.studentToUpdate = {};
+								} else {
+									insertStudent(student);
+									console.log("Student "
+											+ student.chineseLastName
+											+ student.chineseFirstName
+											+ " inserted");
+									$scope.studentToUpdate = {};
+								}
 
 							};
 
@@ -133,7 +100,7 @@ angular
 							// //////////////////////////////
 							// update
 							// //////////////////////////////
-							$scope.updateStudent = function(student) {
+							var updateStudent = function(student) {
 								dataFactory
 										.updateStudent(student)
 										.success(
@@ -150,8 +117,7 @@ angular
 							// ////////////////////////////////
 							// insert
 							// /////////////////////////////////
-							$scope.insertStudent = function(student) {
-
+							var insertStudent = function(student) {
 								dataFactory
 										.insertStudent(student)
 										.success(
