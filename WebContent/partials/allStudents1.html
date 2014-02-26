@@ -14,39 +14,39 @@
 						<tr>
 							<td><label>姓:</label></td>
 							<td><input type="text" placeholder="姓"
-								ng-model="studentToUpdate.chineseLastName"
-								value="{{studentToUpdate.chineseLastName}}" /></td>
+								ng-model="recordToUpdate.chineseLastName"
+								value="{{recordToUpdate.chineseLastName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>名:</label></td>
 							<td><input type="text" placeholder="名"
-								ng-model="studentToUpdate.chineseFirstName"
-								value="{{studentToUpdate.chineseFirstName}}" /></td>
+								ng-model="recordToUpdate.chineseFirstName"
+								value="{{recordToUpdate.chineseFirstName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>Last Name:</label></td>
 							<td><input type="text" placeholder="Last Name"
-								ng-model="studentToUpdate.englishLastName"
-								value="{{studentToUpdate.englishLastName}}" /></td>
+								ng-model="recordToUpdate.englishLastName"
+								value="{{recordToUpdate.englishLastName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>First Name:</label></td>
 							<td><input type="text" placeholder="First Name"
-								ng-model="studentToUpdate.englishFirstName"
-								value="{{studentToUpdate.englishFirstName}}" /></td>
+								ng-model="recordToUpdate.englishFirstName"
+								value="{{recordToUpdate.englishFirstName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>入學年次:</label></td>
 							<td><input type="text" placeholder="入學年次"
-								ng-model="studentToUpdate.gradYear"
-								value="{{studentToUpdate.gradYear}}" /></td>
+								ng-model="recordToUpdate.gradYear"
+								value="{{recordToUpdate.gradYear}}" /></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button ng-click="submitUpdate(studentToUpdate)" type="button"
+				<button ng-click="submitUpdate(recordToUpdate)" type="button"
 					class="btn btn-primary" data-dismiss="modal">Save</button>
 			</div>
 		</div>
@@ -81,7 +81,7 @@
 		</thead>
 		<tbody>
 			<tr
-				ng-repeat="student in students | filter:filterText | orderBy:predicate:reverse">
+				ng-repeat="student in records | filter:filterText | orderBy:predicate:reverse">
 				<td>{{student.chineseLastName}}</td>
 				<td>{{student.chineseFirstName}}</td>
 				<td>{{student.englishLastName}},</td>

@@ -1,5 +1,5 @@
 <!-- Update Insert Modal -->
-<div class="modal fade" id="updateInsertModal" tabindex="-1"
+<div ng-init = "TableName='staff'" class="modal fade" id="updateInsertModal" tabindex="-1"
 	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -14,39 +14,33 @@
 						<tr>
 							<td><label>姓:</label></td>
 							<td><input type="text" placeholder="姓"
-								ng-model="studentToUpdate.chineseLastName"
-								value="{{studentToUpdate.chineseLastName}}" /></td>
+								ng-model="recordToUpdate.chineseLastName"
+								value="{{recordToUpdate.chineseLastName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>名:</label></td>
 							<td><input type="text" placeholder="名"
-								ng-model="studentToUpdate.chineseFirstName"
-								value="{{studentToUpdate.chineseFirstName}}" /></td>
+								ng-model="recordToUpdate.chineseFirstName"
+								value="{{recordToUpdate.chineseFirstName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>Last Name:</label></td>
 							<td><input type="text" placeholder="Last Name"
-								ng-model="studentToUpdate.englishLastName"
-								value="{{studentToUpdate.englishLastName}}" /></td>
+								ng-model="recordToUpdate.englishLastName"
+								value="{{recordToUpdate.englishLastName}}" /></td>
 						</tr>
 						<tr>
 							<td><label>First Name:</label></td>
 							<td><input type="text" placeholder="First Name"
-								ng-model="studentToUpdate.englishFirstName"
-								value="{{studentToUpdate.englishFirstName}}" /></td>
-						</tr>
-						<tr>
-							<td><label>入學年次:</label></td>
-							<td><input type="text" placeholder="入學年次"
-								ng-model="studentToUpdate.gradYear"
-								value="{{studentToUpdate.gradYear}}" /></td>
+								ng-model="recordToUpdate.englishFirstName"
+								value="{{recordToUpdate.englishFirstName}}" /></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button ng-click="submitUpdate(studentToUpdate)" type="button"
+				<button ng-click="submitUpdate(recordToUpdate)" type="button"
 					class="btn btn-primary" data-dismiss="modal">Save</button>
 			</div>
 		</div>
@@ -54,7 +48,7 @@
 </div>
 <div class="container">
 	Filter: <input ng-model="filterText" type="text"><br>
-	<table class="table table-striped" ng-init="predicate = 'gradYear'">
+	<table class="table table-striped" ng-init="predicate = 'chineseLastName'">
 		<thead>
 			<tr>
 				<th><a href=""
@@ -71,9 +65,6 @@
 					ng-click="predicate = 'englishFirstName';
 					reverse=!reverse">First
 						Name</a></th>
-				<th><a href=""
-					ng-click="predicate = 'gradYear';
-					reverse=!reverse">入學年次</a></th>
 				<th>action <a class="btn btn-default btn-sm" href=""
 					ng-click='doCreate()' data-toggle="modal"
 					data-target="#updateInsertModal"> <i class="fa fa-plus fa-lg"></i></a></th>
@@ -81,16 +72,15 @@
 		</thead>
 		<tbody>
 			<tr
-				ng-repeat="student in students | filter:filterText | orderBy:predicate:reverse">
-				<td>{{student.chineseLastName}}</td>
-				<td>{{student.chineseFirstName}}</td>
-				<td>{{student.englishLastName}},</td>
-				<td>{{student.englishFirstName}}</td>
-				<td>{{student.gradYear}}</td>
-				<td><a ng-click='doUpdate(student)' data-toggle="modal"
+				ng-repeat="staff in records | filter:filterText | orderBy:predicate:reverse">
+				<td>{{staff.chineseLastName}}</td>
+				<td>{{staff.chineseFirstName}}</td>
+				<td>{{staff.englishLastName}},</td>
+				<td>{{staff.englishFirstName}}</td>
+				<td><a ng-click='doUpdate(staff)' data-toggle="modal"
 					data-target="#updateInsertModal" class="btn btn-default btn-sm"
 					href=""> <i class="fa fa-pencil fa-lg"></i>
-				</a><a ng-click='doDelete(student)' class="btn btn-danger btn-sm"> <i
+				</a><a ng-click='doDelete(staff)' class="btn btn-danger btn-sm"> <i
 						class="fa fa-trash-o fa-lg"></i>
 				</a></td>
 			</tr>

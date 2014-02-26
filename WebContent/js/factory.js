@@ -1,23 +1,23 @@
 /* Factorys */
 
 angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
-	var urlBase = '/speechservice/student';
+	var urlBase = '/speechservice';
 	var dataFactory = {};
 
-	dataFactory.getAllStudents = function() {
-		return $http.get(urlBase);
+	dataFactory.getAllRecords = function(tableName) {
+		return $http.get(urlBase+"/"+tableName);
 	};
 	
-	dataFactory.deleteStudent = function(idstudent){
-		return $http.delete(urlBase+"/"+idstudent);
+	dataFactory.deleteRecord = function(id, tableName){
+		return $http.delete(urlBase+"/"+tableName+"/"+id);
 	};
 	
-	dataFactory.insertStudent = function (student) {
-	        return $http.post(urlBase, student);
+	dataFactory.insertRecord = function (record, tableName) {
+	        return $http.post(urlBase+"/"+tableName , record);
 	};
 
-	dataFactory.updateStudent = function (student) {
-	        return $http.put(urlBase , student);
+	dataFactory.updateRecord = function (record, tableName) {
+	        return $http.put(urlBase+"/"+tableName , record);
 	};
 	return dataFactory;
 
