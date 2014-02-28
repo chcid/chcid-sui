@@ -11,11 +11,11 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 				controller : 'recordController'
 			});
 			$routeProvider.when('/viewAllContests/:tableName', {
-				templateUrl : 'partials/allContests.html',
+				templateUrl : 'partials/allTwoColumnRecords.html',
 				controller : 'recordController'
 			});
 			$routeProvider.when('/viewAllLocations/:tableName', {
-				templateUrl : 'partials/allLocations.html',
+				templateUrl : 'partials/allTwoColumnRecords.html',
 				controller : 'recordController'
 			});
 			$routeProvider.otherwise({
