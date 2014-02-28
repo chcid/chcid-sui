@@ -14,6 +14,10 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 				templateUrl : 'partials/allContests.html',
 				controller : 'recordController'
 			});
+			$routeProvider.when('/viewAllLocations/:tableName', {
+				templateUrl : 'partials/allLocations.html',
+				controller : 'recordController'
+			});
 			$routeProvider.otherwise({
 				redirectTo : '/viewAllStudents/:tableName'
 			});
