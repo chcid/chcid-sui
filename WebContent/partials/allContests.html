@@ -1,0 +1,56 @@
+<!-- Update Insert Modal -->
+<div class="modal fade" id="updateInsertModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td><label>Name:</label></td>
+							<td><input type="text" placeholder="Contest Name"
+								ng-model="recordToUpdate.name" value="{{recordToUpdate.name}}" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="submitUpdate(recordToUpdate)" type="button"
+					class="btn btn-primary" data-dismiss="modal">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	Filter: <input ng-model="filterText" type="text"><br>
+	<table class="table table-striped" ng-init="predicate = 'name'">
+		<thead>
+			<tr>
+				<th><a href=""
+					ng-click="predicate = 'name';
+					reverse=!reverse">Name</a></th>
+				<th>action <a class="btn btn-default btn-sm" href=""
+					ng-click='doCreate()' data-toggle="modal"
+					data-target="#updateInsertModal"> <i class="fa fa-plus fa-lg"></i></a></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr
+				ng-repeat="record in records | filter:filterText | orderBy:predicate:reverse">
+				<td>{{record.name}}</td>
+				<td><a ng-click='doUpdate(record)' data-toggle="modal"
+					data-target="#updateInsertModal" class="btn btn-default btn-sm"
+					href=""> <i class="fa fa-pencil fa-lg"></i>
+				</a><a ng-click='doDelete(record)' class="btn btn-danger btn-sm"> <i
+						class="fa fa-trash-o fa-lg"></i>
+				</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

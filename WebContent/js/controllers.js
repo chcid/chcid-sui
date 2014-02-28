@@ -70,12 +70,12 @@ angular
 								if (record[IdColName]) {
 									updateRecord(record);
 									console.log(TableName + " "
-											+ record[IdColname] + " updated");
+											+ record[IdColName] + " updated", record);
 									$scope.recordToUpdate = {};
 								} else {
 									insertRecord(record);
 									console.log(TableName + " "
-											+ record[IdColname] + " inserted");
+											+ record[IdColName] + " inserted", record);
 									$scope.recordToUpdate = {};
 								}
 
@@ -86,7 +86,7 @@ angular
 										.confirm(
 												"Are you sure you want to delete this "
 														+ TableName + ": "
-														+ record[IdColname],
+														+ record[IdColName],
 												function(result) {
 													if (result) {
 														deleteRecord(record[IdColName]);
@@ -94,7 +94,7 @@ angular
 																.log(TableName
 																		+ " "
 																		+ record[IdColName]
-																		+ " deleted");
+																		+ " deleted", record);
 													}
 												});
 							};
