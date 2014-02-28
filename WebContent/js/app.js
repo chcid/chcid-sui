@@ -4,19 +4,15 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 		[ '$routeProvider', function($routeProvider) {
 			$routeProvider.when('/viewAllStaffs/:tableName', {
 				templateUrl : 'partials/allStaffs.html',
-				controller : 'staffController'
+				controller : 'recordController'
 			});
 			$routeProvider.when('/viewAllStudents/:tableName', {
-				templateUrl : 'partials/allStudents1.html',
-				controller : 'staffController'
+				templateUrl : 'partials/allStudents.html',
+				controller : 'recordController'
 			});
 			$routeProvider.when('/viewAllContests/:tableName', {
 				templateUrl : 'partials/allContests.html',
-				controller : 'staffController'
-			});
-			$routeProvider.when('/view2', {
-				templateUrl : 'partials/partial2.html',
-				controller : 'MyCtrl2'
+				controller : 'recordController'
 			});
 			$routeProvider.otherwise({
 				redirectTo : '/viewAllStudents/:tableName'
