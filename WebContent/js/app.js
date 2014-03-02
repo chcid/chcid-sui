@@ -14,7 +14,7 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 				templateUrl : 'partials/allTwoColumnRecords.html',
 				controller : 'recordController'
 			});
-			$routeProvider.when('/viewAllLocations/:tableName', {
+			$routeProvider.when('/viewAllContestLocations/:tableName', {
 				templateUrl : 'partials/allTwoColumnRecords.html',
 				controller : 'recordController'
 			});
@@ -36,6 +36,10 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 			});
 			$routeProvider.when('/viewAllScoreRuleItems/:tableName', {
 				templateUrl : 'partials/allScoreRuleItems.html',
+				controller : 'recordController'
+			});
+			$routeProvider.when('/viewAllContestGroups/:tableName', {
+				templateUrl : 'partials/allContestGroups.html',
 				controller : 'recordController'
 			});
 			$routeProvider.otherwise({

@@ -1,0 +1,118 @@
+<!-- Update Insert Modal -->
+<div class="modal fade" id="updateInsertModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td><label>比賽:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.contest"
+								ng-options="contest.name for contest in contests">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label>組別:</label></td>
+							<td><input type="text" placeholder="組別"
+								ng-model="recordToUpdate.name" value="{{recordToUpdate.name}}" /></td>
+						</tr>
+						<tr>
+							<td><label>比賽場地:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.contestLocation"
+								ng-options="contestLocation.name for contestLocation in contestLocations">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label>時間規則:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.timeLimitRule"
+								ng-options="timeLimitRule.name for timeLimitRule in timeLimitRules">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label>評分標準:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.scoreRule"
+								ng-options="scoreRule.name for scoreRule in scoreRules">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label>累計方式:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.scoreCountingType"
+								ng-options="scoreCountingType.name for scoreCountingType in scoreCountingTypes">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="submitUpdate(recordToUpdate)" type="button"
+					class="btn btn-primary" data-dismiss="modal">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	Filter: <input ng-model="filterText" type="text"><br>
+	<table class="table table-striped"
+		ng-init="predicate = 'chineseLastName'">
+		<thead>
+			<tr>
+				<th><a href=""
+					ng-click="predicate = 'contest.name';
+					reverse=!reverse">比賽</a></th>
+				<th><a href=""
+					ng-click="predicate = 'name';
+					reverse=!reverse">組別</a></th>
+				<th><a href=""
+					ng-click="predicate = 'contestLocation.name';
+					reverse=!reverse">比賽場地</a></th>
+				<th><a href=""
+					ng-click="predicate = 'timeLimitRule.name';
+					reverse=!reverse">時間規則</a></th>
+				<th><a href=""
+					ng-click="predicate = 'scoreRule.name';
+					reverse=!reverse">評分標準</a></th>
+				<th><a href=""
+					ng-click="predicate = 'scoreCountingType.name';
+					reverse=!reverse">累計方式
+				</a></th>
+				<th>action <a class="btn btn-default btn-sm" href=""
+					ng-click='doCreate()' data-toggle="modal"
+					data-target="#updateInsertModal"> <i class="fa fa-plus fa-lg"></i></a></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr
+				ng-repeat="record in records | filter:filterText | orderBy:predicate:reverse">
+				<td>{{record.contest.name}}</td>
+				<td>{{record.name}}</td>
+				<td>{{record.contestLocation.name}}</td>
+				<td>{{record.timeLimitRule.name}}</td>
+				<td>{{record.scoreRule.name}}</td>
+				<td>{{record.scoreCountingType.name}}</td>
+				<td><a ng-click='doUpdate(record)' data-toggle="modal"
+					data-target="#updateInsertModal" class="btn btn-default btn-sm"
+					href=""> <i class="fa fa-pencil fa-lg"></i>
+				</a><a ng-click='doDelete(record)' class="btn btn-danger btn-sm"> <i
+						class="fa fa-trash-o fa-lg"></i>
+				</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

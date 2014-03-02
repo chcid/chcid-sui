@@ -13,7 +13,7 @@ angular
 						function($scope, dataFactory, $routeParams) {
 
 							var TableName = $routeParams.tableName;
-							if (TableName == "score_rule_item") {
+							var loadScoreRules = function() {
 								dataFactory
 										.getAllRecords("score_rule")
 										.success(function(resultSet) {
@@ -26,7 +26,70 @@ angular
 															+ ' data: '
 															+ error.message;
 												});
-
+							};
+							var loadContests = function() {
+								dataFactory.getAllRecords("contest").success(
+										function(resultSet) {
+											$scope.contests = resultSet;
+										}).error(
+										function(error) {
+											$scope.status = 'Unable to load '
+													+ "contest" + ' data: '
+													+ error.message;
+										});
+							};
+							var loadContestLocatons = function() {
+								dataFactory
+										.getAllRecords("contest_location")
+										.success(
+												function(resultSet) {
+													$scope.contestLocations = resultSet;
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "contest location"
+															+ ' data: '
+															+ error.message;
+												});
+							};
+							var loadTimeLimitRules = function() {
+								dataFactory
+										.getAllRecords("time_limit_rule")
+										.success(function(resultSet) {
+											$scope.timeLimitRules = resultSet;
+										})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "time_limit_rule"
+															+ ' data: '
+															+ error.message;
+												});
+							};
+							var loadScoreCountingTypes = function() {
+								dataFactory
+										.getAllRecords("score_counting_type")
+										.success(
+												function(resultSet) {
+													$scope.scoreCountingTypes = resultSet;
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "score_counting_type"
+															+ ' data: '
+															+ error.message;
+												});
+							};
+							if ("score_rule_item" == TableName) {
+								loadScoreRules();
+							} else if ("contest_group" == TableName) {
+								loadScoreRules();
+								loadContests();
+								loadContestLocatons();
+								loadScoreCountingTypes();
+								loadTimeLimitRules();
 							}
 							var IdColName = "id" + TableName;
 
@@ -68,16 +131,64 @@ angular
 							// };
 							// refreshData();
 							// $scope.students = dataFactory.getAllStudents();
+							var setUpSelectDropdownScoreRule = function() {
+								var dom = jsel($scope.scoreRules);
+								$scope.recordToUpdate.scoreRule = dom
+										.select("//*[@idscore_rule='"
+												+ $scope.recordToUpdate.scoreRule.idscore_rule
+												+ "']");
+							}
+							var setUpSelectDropdownContest = function() {
+								var dom = jsel($scope.contests);
+								$scope.recordToUpdate.contest = dom
+										.select("//*[@idcontest='"
+												+ $scope.recordToUpdate.contest.idcontest
+												+ "']");
+							}
+							var setUpSelectDropdownContestLocation = function() {
+								var dom = jsel($scope.contestLocations);
+								$scope.recordToUpdate.contestLocation = dom
+										.select("//*[@idcontest_location='"
+												+ $scope.recordToUpdate.contestLocation.idcontest_location
+												+ "']");
+								// console.log(
+								// $scope.recordToUpdate.locationPlace );
+							}
+							var setUpSelectDropdownTimeLimitRule = function() {
+								var dom = jsel($scope.timeLimitRules);
+								$scope.recordToUpdate.timeLimitRule = dom
+										.select("//*[@idtime_limit_rule='"
+												+ $scope.recordToUpdate.timeLimitRule.idtime_limit_rule
+												+ "']");
+							}
+							var setUpSelectDropdownScoreCountingType = function() {
+								var dom = jsel($scope.scoreCountingTypes);
+								$scope.recordToUpdate.scoreCountingType = dom
+										.select("//*[@idscore_counting_type='"
+												+ $scope.recordToUpdate.scoreCountingType.idscore_counting_type
+												+ "']");
+							}
 
 							$scope.doUpdate = function(record) {
 								$scope.modalTitle = "Update this " + TableName;
+								// console.log(record);
+								// var loc = record.locationPlace;
+								// console.log(loc);
+								// var locCopy = angular.copy(loc);
+								// console.log(locCopy);
 								$scope.recordToUpdate = angular.copy(record);
+								// $scope.recordToUpdate.locationPlace =
+								// locCopy;
+								// $scope.recordToUpdate = record;
+								// console.log($scope.recordToUpdate);
 								if (TableName == "score_rule_item") {
-									var dom = jsel($scope.scoreRules);
-									$scope.recordToUpdate.scoreRule = dom
-											.select("//*[@idscore_rule='"
-													+ $scope.recordToUpdate.scoreRule.idscore_rule
-													+ "']");
+									setUpSelectDropdownScoreRule();
+								} else if ("contest_group" == TableName) {
+									setUpSelectDropdownContest();
+									setUpSelectDropdownContestLocation();
+									setUpSelectDropdownScoreCountingType();
+									setUpSelectDropdownScoreRule();
+									setUpSelectDropdownTimeLimitRule();
 								}
 							};
 
@@ -97,9 +208,8 @@ angular
 									$scope.recordToUpdate = {};
 								} else {
 									insertRecord(record);
-									console.log(TableName + " "
-											+ record[IdColName] + " inserted",
-											record);
+									console.log(TableName + " " + "new record"
+											+ " inserted", record);
 									$scope.recordToUpdate = {};
 								}
 

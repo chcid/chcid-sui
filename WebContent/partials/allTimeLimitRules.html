@@ -12,6 +12,11 @@
 				<table class="table">
 					<tbody>
 						<tr>
+							<td><label>Name:</label></td>
+							<td><input type="text" placeholder="Name"
+								ng-model="recordToUpdate.name" value="{{recordToUpdate.name}}" /></td>
+						</tr>
+						<tr>
 							<td><label>Max Limit:</label></td>
 							<td><input type="text" placeholder="Max Limit"
 								ng-model="recordToUpdate.maxLimit"
@@ -41,6 +46,9 @@
 		<thead>
 			<tr>
 				<th><a href=""
+					ng-click="predicate = 'name';
+					reverse=!reverse">Name</a></th>
+				<th><a href=""
 					ng-click="predicate = 'maxLimit';
 					reverse=!reverse">maxLimit</a></th>
 				<th><a href=""
@@ -54,6 +62,7 @@
 		<tbody>
 			<tr
 				ng-repeat="record in records | filter:filterText | orderBy:predicate:reverse">
+				<td>{{record.name}}</td>
 				<td>{{record.maxLimit}}</td>
 				<td>{{record.minLimit}}</td>
 				<td><a ng-click='doUpdate(record)' data-toggle="modal"
