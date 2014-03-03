@@ -13,6 +13,20 @@ angular
 						function($scope, dataFactory, $routeParams) {
 
 							var TableName = $routeParams.tableName;
+							var loadContestGroups = function() {
+								dataFactory
+										.getAllRecords("contest_group")
+										.success(function(resultSet) {
+											$scope.contestGroups = resultSet;
+										})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "contest_group"
+															+ ' data: '
+															+ error.message;
+												});
+							};
 							var loadScoreRules = function() {
 								dataFactory
 										.getAllRecords("score_rule")
@@ -90,6 +104,8 @@ angular
 								loadContestLocatons();
 								loadScoreCountingTypes();
 								loadTimeLimitRules();
+							} else if ("contestor") {
+								loadContestGroups();
 							}
 							var IdColName = "id" + TableName;
 
@@ -131,20 +147,27 @@ angular
 							// };
 							// refreshData();
 							// $scope.students = dataFactory.getAllStudents();
+							var setUpSelectDropdownContestGroup = function() {
+								var dom = jsel($scope.contestGroups);
+								$scope.recordToUpdate.contestGroup = dom
+										.select("//*[@idcontest_group='"
+												+ $scope.recordToUpdate.contestGroup.idcontest_group
+												+ "']");
+							};
 							var setUpSelectDropdownScoreRule = function() {
 								var dom = jsel($scope.scoreRules);
 								$scope.recordToUpdate.scoreRule = dom
 										.select("//*[@idscore_rule='"
 												+ $scope.recordToUpdate.scoreRule.idscore_rule
 												+ "']");
-							}
+							};
 							var setUpSelectDropdownContest = function() {
 								var dom = jsel($scope.contests);
 								$scope.recordToUpdate.contest = dom
 										.select("//*[@idcontest='"
 												+ $scope.recordToUpdate.contest.idcontest
 												+ "']");
-							}
+							};
 							var setUpSelectDropdownContestLocation = function() {
 								var dom = jsel($scope.contestLocations);
 								$scope.recordToUpdate.contestLocation = dom
@@ -153,21 +176,28 @@ angular
 												+ "']");
 								// console.log(
 								// $scope.recordToUpdate.locationPlace );
-							}
+							};
 							var setUpSelectDropdownTimeLimitRule = function() {
 								var dom = jsel($scope.timeLimitRules);
 								$scope.recordToUpdate.timeLimitRule = dom
 										.select("//*[@idtime_limit_rule='"
 												+ $scope.recordToUpdate.timeLimitRule.idtime_limit_rule
 												+ "']");
-							}
+							};
 							var setUpSelectDropdownScoreCountingType = function() {
 								var dom = jsel($scope.scoreCountingTypes);
 								$scope.recordToUpdate.scoreCountingType = dom
 										.select("//*[@idscore_counting_type='"
 												+ $scope.recordToUpdate.scoreCountingType.idscore_counting_type
 												+ "']");
-							}
+							};
+							var setUpSelectDropdownContestGroup = function() {
+								var dom = jsel($scope.contestGroups);
+								$scope.recordToUpdate.contestGroup = dom
+										.select("//*[@idcontest_group='"
+												+ $scope.recordToUpdate.contestGroup.idcontest_group
+												+ "']");
+							};
 
 							$scope.doUpdate = function(record) {
 								$scope.modalTitle = "Update this " + TableName;
@@ -189,6 +219,8 @@ angular
 									setUpSelectDropdownScoreCountingType();
 									setUpSelectDropdownScoreRule();
 									setUpSelectDropdownTimeLimitRule();
+								} else if ("contestor" == TableName) {
+									setUpSelectDropdownContestGroup();
 								}
 							};
 
