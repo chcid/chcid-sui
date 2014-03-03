@@ -1,0 +1,84 @@
+<!-- Update Insert Modal -->
+<div class="modal fade" id="updateInsertModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{{modalTitle}}</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td><label>比賽組別:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.contestGroup"
+								ng-options="contestGroup.name for contestGroup in contestGroups">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label>人員:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.staff"
+								ng-options="(staff.chineseLastName+''+staff.chineseFirstName+'-'+staff.englishLastName+', '+staff.englishFirstName ) for staff in staffs">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label>職責:</label></td>
+							<td><select class="form-control"
+								ng-model="recordToUpdate.role"
+								ng-options="role.name for role in roles">
+									<option value="">-- Please Select one --</option>
+							</select></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button ng-click="submitUpdate(recordToUpdate)" type="button"
+					class="btn btn-primary" data-dismiss="modal">Save</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	Filter: <input ng-model="filterText" type="text"><br>
+	<table class="table table-striped" ng-init="predicate = 'contestOrder'">
+		<thead>
+			<tr>
+				<th><a href=""
+					ng-click="predicate = 'contestGroup.name';
+					reverse=!reverse">比賽組別</a></th>
+				<th><a href=""
+					ng-click="predicate = 'staff.chineseLastName';
+					reverse=!reverse">人員</a></th>
+				<th><a href=""
+					ng-click="predicate = 'role.name';
+					reverse=!reverse">職責</a></th>
+				<th>action <a class="btn btn-default btn-sm" href=""
+					ng-click='doCreate()' data-toggle="modal"
+					data-target="#updateInsertModal"> <i class="fa fa-plus fa-lg"></i></a></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr
+				ng-repeat="record in records | filter:filterText | orderBy:predicate:reverse">
+				<td>{{record.contestGroup.name}}</td>
+				<td>{{record.staff.chineseLastName}}{{record.staff.chineseFirstName}}-{{record.staff.englishLastName}},{{record.staff.englishFirstName}}
+				</td>
+				<td>{{record.role.name}}</td>
+				<td><a ng-click='doUpdate(record)' data-toggle="modal"
+					data-target="#updateInsertModal" class="btn btn-default btn-sm"
+					href=""> <i class="fa fa-pencil fa-lg"></i>
+				</a><a ng-click='doDelete(record)' class="btn btn-danger btn-sm"> <i
+						class="fa fa-trash-o fa-lg"></i>
+				</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

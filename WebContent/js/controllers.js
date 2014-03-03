@@ -14,6 +14,30 @@ angular
 
 							var TableName = $routeParams.tableName;
 
+							var loadStaffs = function() {
+								dataFactory.getAllRecords("staff").success(
+										function(resultSet) {
+											$scope.staffs = resultSet;
+										}).error(
+										function(error) {
+											$scope.status = 'Unable to load '
+													+ "staff" + ' data: '
+													+ error.message;
+										});
+							};
+
+							var loadRoles = function() {
+								dataFactory.getAllRecords("role").success(
+										function(resultSet) {
+											$scope.roles = resultSet;
+										}).error(
+										function(error) {
+											$scope.status = 'Unable to load '
+													+ "role" + ' data: '
+													+ error.message;
+										});
+							};
+
 							var loadStudents = function() {
 								dataFactory.getAllRecords("student").success(
 										function(resultSet) {
@@ -133,6 +157,10 @@ angular
 							} else if ("contestor_individual" == TableName) {
 								loadContestors();
 								loadStudents();
+							} else if ("judge" == TableName) {
+								loadContestGroups();
+								loadStaffs();
+								loadRoles();
 							}
 							var IdColName = "id" + TableName;
 
@@ -242,6 +270,22 @@ angular
 												+ "']");
 							};
 
+							var setUpSelectDropdownStaff = function() {
+								var dom = jsel($scope.staffs);
+								$scope.recordToUpdate.staff = dom
+										.select("//*[@idstaff='"
+												+ $scope.recordToUpdate.staff.idstaff
+												+ "']");
+							};
+
+							var setUpSelectDropdownRole = function() {
+								var dom = jsel($scope.roles);
+								$scope.recordToUpdate.role = dom
+										.select("//*[@idrole='"
+												+ $scope.recordToUpdate.role.idrole
+												+ "']");
+							};
+
 							$scope.doUpdate = function(record) {
 								$scope.modalTitle = "Update this " + TableName;
 								// console.log(record);
@@ -267,6 +311,10 @@ angular
 								} else if ("contestor_individual" == TableName) {
 									setUpSelectDropdownStudent();
 									setUpSelectDropdownContestor();
+								} else if ("judge" == TableName) {
+									setUpSelectDropdownContestGroup();
+									setUpSelectDropdownStaff();
+									setUpSelectDropdownRole();
 								}
 							};
 

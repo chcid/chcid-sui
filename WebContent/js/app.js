@@ -50,8 +50,12 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 				templateUrl : 'partials/allContestorIndividuals.html',
 				controller : 'recordController'
 			});
+			$routeProvider.when('/viewAllJudges/:tableName', {
+				templateUrl : 'partials/allJudges.html',
+				controller : 'recordController'
+			});
 			$routeProvider.otherwise({
-				redirectTo : '/viewAllStudents/:tableName'
+				redirectTo : '/viewAllJudges/judge'
 			});
 		} ]);
 
