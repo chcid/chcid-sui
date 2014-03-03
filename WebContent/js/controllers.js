@@ -13,6 +13,30 @@ angular
 						function($scope, dataFactory, $routeParams) {
 
 							var TableName = $routeParams.tableName;
+
+							var loadStudents = function() {
+								dataFactory.getAllRecords("student").success(
+										function(resultSet) {
+											$scope.students = resultSet;
+										}).error(
+										function(error) {
+											$scope.status = 'Unable to load '
+													+ "student" + ' data: '
+													+ error.message;
+										});
+							};
+
+							var loadContestors = function() {
+								dataFactory.getAllRecords("contestor").success(
+										function(resultSet) {
+											$scope.contestors = resultSet;
+										}).error(
+										function(error) {
+											$scope.status = 'Unable to load '
+													+ "contestor" + ' data: '
+													+ error.message;
+										});
+							};
 							var loadContestGroups = function() {
 								dataFactory
 										.getAllRecords("contest_group")
@@ -104,8 +128,11 @@ angular
 								loadContestLocatons();
 								loadScoreCountingTypes();
 								loadTimeLimitRules();
-							} else if ("contestor") {
+							} else if ("contestor" == TableName) {
 								loadContestGroups();
+							} else if ("contestor_individual" == TableName) {
+								loadContestors();
+								loadStudents();
 							}
 							var IdColName = "id" + TableName;
 
@@ -199,6 +226,22 @@ angular
 												+ "']");
 							};
 
+							var setUpSelectDropdownContestor = function() {
+								var dom = jsel($scope.contestors);
+								$scope.recordToUpdate.contestor = dom
+										.select("//*[@idcontestor='"
+												+ $scope.recordToUpdate.contestor.idcontestor
+												+ "']");
+							};
+
+							var setUpSelectDropdownStudent = function() {
+								var dom = jsel($scope.students);
+								$scope.recordToUpdate.student = dom
+										.select("//*[@idstudent='"
+												+ $scope.recordToUpdate.student.idstudent
+												+ "']");
+							};
+
 							$scope.doUpdate = function(record) {
 								$scope.modalTitle = "Update this " + TableName;
 								// console.log(record);
@@ -221,6 +264,9 @@ angular
 									setUpSelectDropdownTimeLimitRule();
 								} else if ("contestor" == TableName) {
 									setUpSelectDropdownContestGroup();
+								} else if ("contestor_individual" == TableName) {
+									setUpSelectDropdownStudent();
+									setUpSelectDropdownContestor();
 								}
 							};
 
