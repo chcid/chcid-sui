@@ -12,10 +12,14 @@
 				<table class="table">
 					<tbody>
 						<tr>
+							<td><label>比賽組別 Filter:</label></td>
+							<td><input type="text" ng-model="groupSelectFilterText" /></td>
+						</tr>
+						<tr>
 							<td><label>比賽組別:</label></td>
 							<td><select class="form-control"
 								ng-model="recordToUpdate.contestGroup"
-								ng-options="contestGroup.name for contestGroup in contestGroups">
+								ng-options="contestGroup.name for contestGroup in contestGroups | filter:groupSelectFilterText">
 									<option value="">-- Please Select one --</option>
 							</select></td>
 						</tr>

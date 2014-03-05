@@ -12,18 +12,28 @@
 				<table class="table">
 					<tbody>
 						<tr>
+							<td><label>演講題目 Filter:</label></td>
+							<td><input type="text"
+								ng-model="speechTitleSelectFilterText" /></td>
+						</tr>
+
+						<tr>
 							<td><label>演講題目:</label></td>
 							<td><select class="form-control"
 								ng-model="recordToUpdate.contestor"
-								ng-options="(contestor.speechTitle+'-順序:'+contestor.contestOrder) group by (contestor.contestGroup.contest.name+'-'+contestor.contestGroup.name) for contestor in contestors">
+								ng-options="(contestor.speechTitle+'-順序:'+contestor.contestOrder) group by (contestor.contestGroup.contest.name+'-'+contestor.contestGroup.name) for contestor in contestors | filter:speechTitleSelectFilterText">
 									<option value="">-- Please Select one --</option>
 							</select></td>
+						</tr>
+						<tr>
+							<td><label>學生 Filter:</label></td>
+							<td><input type="text" ng-model="studentSelectFilterText" /></td>
 						</tr>
 						<tr>
 							<td><label>學生:</label></td>
 							<td><select class="form-control"
 								ng-model="recordToUpdate.student"
-								ng-options="(student.chineseLastName+''+student.chineseFirstName+'-'+student.englishLastName+', '+student.englishFirstName ) group by student.gradYear for student in students">
+								ng-options="(student.chineseLastName+''+student.chineseFirstName+'-'+student.englishLastName+', '+student.englishFirstName ) group by student.gradYear for student in students | filter:studentSelectFilterText">
 									<option value="">-- Please Select one --</option>
 							</select></td>
 						</tr>
