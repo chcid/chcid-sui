@@ -2,6 +2,10 @@
 
 angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 		[ '$routeProvider', function($routeProvider) {
+			$routeProvider.when('/judgeScoring', {
+				templateUrl : 'partials/judgeScoring.html',
+				controller : 'judgeScoringController'
+			});
 			$routeProvider.when('/viewAllStaffs/:tableName', {
 				templateUrl : 'partials/allStaffs.html',
 				controller : 'recordController'

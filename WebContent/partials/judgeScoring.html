@@ -1,0 +1,27 @@
+<div class="container">
+	<table class="table">
+		<tbody>
+			<tr>
+				<td><label>Please select your name:</label></td>
+			</tr>
+			<tr>
+				<td><select ng-change="selectedStaffChanged()"
+					class="form-control" ng-model="selectedStaff"
+					ng-options="(selectLoginStaff.chineseLastName+''+selectLoginStaff.chineseFirstName+' - '+selectLoginStaff.englishLastName+', '+selectLoginStaff.englishFirstName ) for selectLoginStaff in selectLoginStaffs">
+						<option value="">-- Please Select one --</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><label>Please select the Group to Score:</label></td>
+			</tr>
+			<tr>
+				<td><select ng-change="" class="form-control"
+					ng-model="selectedContestGroup"
+					ng-options="(selectContestGroup.name+' - '+selectContestGroup.contestLocation.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups">
+						<option value="">-- Please Select one --</option>
+				</select></td>
+			</tr>
+		</tbody>
+	</table>
+	{{loginedStaff}}
+</div>

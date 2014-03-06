@@ -3,6 +3,14 @@
 angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
 	var urlBase = '/speechservice';
 	var dataFactory = {};
+	
+	dataFactory.getSelectContestGroupListForLoginedStaff = function(idstaff) {
+		return $http.get(urlBase+"/"+"contest_group/staff/" + idstaff);
+	};
+	
+	dataFactory.getSelectLoginStaffList = function() {
+		return $http.get(urlBase+"/"+"staff/loginList");
+	};
 
 	dataFactory.getAllRecords = function(tableName) {
 		return $http.get(urlBase+"/"+tableName);

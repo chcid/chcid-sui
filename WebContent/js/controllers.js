@@ -5,6 +5,49 @@
 angular
 		.module('speechApp.controllers', [])
 		.controller(
+				'judgeScoringController',
+				[
+						'$scope',
+						'dataFactory',
+						'$routeParams',
+						function($scope, dataFactory, $routeParams) {
+
+							var loadSelectLoginStaffList = function() {
+								dataFactory
+										.getSelectLoginStaffList()
+										.success(
+												function(resultSet) {
+													$scope.selectLoginStaffs = resultSet;
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "select login staff list"
+															+ ' data: '
+															+ error.message;
+												});
+							};
+							$scope.selectedStaffChanged = function() {
+								dataFactory
+										.getSelectContestGroupListForLoginedStaff(
+												$scope.selectedStaff.idstaff)
+										.success(
+												function(resultSet) {
+													$scope.selectContestGroups = resultSet;
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "select contest group list for selected staff"
+															+ ' data: '
+															+ error.message;
+												});
+							}
+
+							loadSelectLoginStaffList();
+
+						} ])
+		.controller(
 				'recordController',
 				[
 						'$scope',
