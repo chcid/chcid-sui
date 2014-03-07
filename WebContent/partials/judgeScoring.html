@@ -15,13 +15,38 @@
 				<td><label>Please select the Group to Score:</label></td>
 			</tr>
 			<tr>
-				<td><select ng-change="" class="form-control"
-					ng-model="selectedContestGroup"
-					ng-options="(selectContestGroup.name+' - '+selectContestGroup.contestLocation.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups">
+				<td><select ng-change="selectedContestGroupChanged()"
+					class="form-control" ng-model="selectedContestGroup"
+					ng-options="(selectContestGroup.name+' - '+selectContestGroup.contestLocation.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups">
 						<option value="">-- Please Select one --</option>
 				</select></td>
 			</tr>
 		</tbody>
 	</table>
-	{{loginedStaff}}
+	Filter: <input ng-model="filterText" type="text"><br>
+	<table class="table table-striped" ng-init="predicate = 'contestOrder'">
+		<thead>
+			<tr>
+				<th><a href=""
+					ng-click="predicate = 'contestOrder';
+					reverse=!reverse">順序</a></th>
+				<th><a href=""
+					ng-click="predicate = 'speechTitle';
+					reverse=!reverse">演講題目</a></th>
+
+				<th>action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr
+				ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
+				<td>{{record.contestOrder}}</td>
+				<td>{{record.speechTitle}}</td>
+				<td><a ng-click='doUpdate(record)' data-toggle="modal"
+					data-target="#updateInsertModal" class="btn btn-default btn-sm"
+					href=""> <i class="fa fa-pencil fa-lg"></i>
+				</a></td>
+			</tr>
+		</tbody>
+	</table>
 </div>

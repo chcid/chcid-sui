@@ -4,6 +4,10 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
 	var urlBase = '/speechservice';
 	var dataFactory = {};
 	
+	dataFactory.getContestorsForJudgeToScore = function(idcontestGroup, idstaff, idrole) {
+		return $http.get(urlBase+"/contestor"+"/contest_group/"+idcontestGroup+"/staff/"+idstaff+"/role/"+idrole);
+	};
+	
 	dataFactory.getSelectContestGroupListForLoginedStaff = function(idstaff) {
 		return $http.get(urlBase+"/"+"contest_group/staff/" + idstaff);
 	};

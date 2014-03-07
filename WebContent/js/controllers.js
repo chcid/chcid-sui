@@ -12,6 +12,26 @@ angular
 						'$routeParams',
 						function($scope, dataFactory, $routeParams) {
 
+							var loadContestorsForJudgeToScore = function(
+									idcontestGroup, idstaff, idrole) {
+								dataFactory
+										.getContestorsForJudgeToScore(
+												idcontestGroup, idstaff, idrole)
+										.success(
+												function(resultSet) {
+													$scope.contestorsForJudgeToScore = resultSet;
+													console
+															.log($scope.contestorsForJudgeToScore);
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "Contestors for Judge to Score"
+															+ ' data: '
+															+ error.message;
+												});
+							};
+
 							var loadSelectLoginStaffList = function() {
 								dataFactory
 										.getSelectLoginStaffList()
@@ -42,6 +62,13 @@ angular
 															+ ' data: '
 															+ error.message;
 												});
+							};
+							$scope.selectedContestGroupChanged = function() {
+								//console.log($scope.selectedContestGroup);
+								loadContestorsForJudgeToScore(
+										$scope.selectedContestGroup.idcontest_group,
+										$scope.selectedStaff.idstaff,
+										$scope.selectedContestGroup.role.idrole);
 							}
 
 							loadSelectLoginStaffList();
