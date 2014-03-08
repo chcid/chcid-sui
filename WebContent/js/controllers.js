@@ -12,6 +12,13 @@ angular
 						'$routeParams',
 						function($scope, dataFactory, $routeParams) {
 
+							var loadContestors = function() {
+								loadContestorsForJudgeToScore(
+										$scope.selectedContestGroup.idcontest_group,
+										$scope.selectedStaff.idstaff,
+										$scope.selectedContestGroup.role.idrole);
+							};
+
 							var loadContestorsForJudgeToScore = function(
 									idcontestGroup, idstaff, idrole) {
 								dataFactory
@@ -64,12 +71,36 @@ angular
 												});
 							};
 							$scope.selectedContestGroupChanged = function() {
-								//console.log($scope.selectedContestGroup);
-								loadContestorsForJudgeToScore(
-										$scope.selectedContestGroup.idcontest_group,
-										$scope.selectedStaff.idstaff,
-										$scope.selectedContestGroup.role.idrole);
-							}
+								console.log($scope.selectedContestGroup);
+								loadContestors();
+							};
+
+							$scope.doScore = function(record) {
+								$scope.contestorToScore = angular.copy(record);
+							};
+
+							$scope.submitScore = function(record) {
+								console.log(record);
+								var tableName = "speech_score"
+								dataFactory
+										.updateRecord(record, tableName)
+										.success(
+												function() {
+													$scope.status = 'Updated '
+															+ +'! Refreshing '
+															+ tableName
+															+ ' list.';
+													loadContestors();
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to update '
+															+ tableName
+															+ ': '
+															+ error.message;
+												});
+
+							};
 
 							loadSelectLoginStaffList();
 

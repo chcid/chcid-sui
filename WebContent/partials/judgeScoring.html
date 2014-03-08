@@ -1,52 +1,97 @@
 <div class="container">
-	<table class="table">
-		<tbody>
-			<tr>
-				<td><label>Please select your name:</label></td>
-			</tr>
-			<tr>
-				<td><select ng-change="selectedStaffChanged()"
-					class="form-control" ng-model="selectedStaff"
-					ng-options="(selectLoginStaff.chineseLastName+''+selectLoginStaff.chineseFirstName+' - '+selectLoginStaff.englishLastName+', '+selectLoginStaff.englishFirstName ) for selectLoginStaff in selectLoginStaffs">
-						<option value="">-- Please Select one --</option>
-				</select></td>
-			</tr>
-			<tr>
-				<td><label>Please select the Group to Score:</label></td>
-			</tr>
-			<tr>
-				<td><select ng-change="selectedContestGroupChanged()"
-					class="form-control" ng-model="selectedContestGroup"
-					ng-options="(selectContestGroup.name+' - '+selectContestGroup.contestLocation.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups">
-						<option value="">-- Please Select one --</option>
-				</select></td>
-			</tr>
-		</tbody>
-	</table>
-	Filter: <input ng-model="filterText" type="text"><br>
-	<table class="table table-striped" ng-init="predicate = 'contestOrder'">
-		<thead>
-			<tr>
-				<th><a href=""
-					ng-click="predicate = 'contestOrder';
+	<div id="judgeLoginTable">
+		<table class="table">
+			<tbody>
+				<tr>
+					<td><label>Please select your name:</label></td>
+				</tr>
+				<tr>
+					<td><select ng-change="selectedStaffChanged()"
+						class="form-control" ng-model="selectedStaff"
+						ng-options="(selectLoginStaff.chineseLastName+''+selectLoginStaff.chineseFirstName+' - '+selectLoginStaff.englishLastName+', '+selectLoginStaff.englishFirstName ) for selectLoginStaff in selectLoginStaffs">
+							<option value="">-- Please Select one --</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td><label>Please select the Group to Score:</label></td>
+				</tr>
+				<tr>
+					<td><select ng-change="selectedContestGroupChanged()"
+						class="form-control" ng-model="selectedContestGroup"
+						ng-options="(selectContestGroup.name+' - '+selectContestGroup.contestLocation.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups">
+							<option value="">-- Please Select one --</option>
+					</select></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="judgeScoreSheetTable">
+		Filter: <input ng-model="filterText" type="text"><br>
+		<table class="table table-striped"
+			ng-init="predicate = 'contestOrder'">
+			<thead>
+				<tr>
+					<th><a href=""
+						ng-click="predicate = 'contestOrder';
 					reverse=!reverse">順序</a></th>
-				<th><a href=""
-					ng-click="predicate = 'speechTitle';
+					<th><a href=""
+						ng-click="predicate = 'students';
+					reverse=!reverse">學生姓名</a></th>
+					<th><a href=""
+						ng-click="predicate = 'speechTitle';
 					reverse=!reverse">演講題目</a></th>
+					<th
+						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscoreRuleItem'">{{scoreRuleItem.name}}({{scoreRuleItem.weight}}%)</th>
+					<th><a href=""
+						ng-click="predicate = 'totalScore';
+					reverse=!reverse">總分</a></th>
+					<th>action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
+					<td>{{record.contestOrder}}</td>
+					<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}{{student.englishFirstName}}{{student.englishLastName}}
+					</span></td>
+					<td>{{record.speechTitle}}</td>
+					<td
+						ng-repeat="score in record.scoreRuleItems | orderBy:'idscore_ruleItem'">{{score.name}}-{{score.speechScore.score}}</td>
+					<td>{{record.totalScore}}</td>
+					<td><a ng-click='doScore(record)'
+						class="btn btn-default btn-sm" href=""> <i
+							class="fa fa-pencil fa-lg"></i>
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div id="contestorToScoreTable">
+		<table class="table">
+			<tbody>
+				<tr>
+					<td><label>學生姓名:</label></td>
+					<td><span ng-repeat="student in contestorToScore.students">{{student.chineseLastName}}{{student.chineseFirstName}}{{student.englishFirstName}}{{student.englishLastName}}
+					</span></td>
+				</tr>
+				<tr>
+					<td><label>演講題目:</label></td>
+					<td>{{contestorToScore.speechTitle}}</td>
+				</tr>
+				<tr ng-repeat="scoreRuleItem in contestorToScore.scoreRuleItems">
+					<td><label>{{scoreRuleItem.name}}({{scoreRuleItem.weight}}%):</label></td>
+					<td><input type="text" ng-model="scoreRuleItem.speechScore.score"
+						value="{{scoreRuleItem.speechScore.score}}" /></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td align="right"><button type="button"
+							class="btn btn-default">Cancel</button>
+						<button ng-click="submitScore(contestorToScore)" type="button"
+							class="btn btn-primary">Save</button></td>
+				</tr>
+			</tbody>
+		</table>
 
-				<th>action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr
-				ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
-				<td>{{record.contestOrder}}</td>
-				<td>{{record.speechTitle}}</td>
-				<td><a ng-click='doUpdate(record)' data-toggle="modal"
-					data-target="#updateInsertModal" class="btn btn-default btn-sm"
-					href=""> <i class="fa fa-pencil fa-lg"></i>
-				</a></td>
-			</tr>
-		</tbody>
-	</table>
+	</div>
 </div>
