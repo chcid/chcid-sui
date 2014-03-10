@@ -72,11 +72,17 @@ angular
 							};
 							$scope.selectedContestGroupChanged = function() {
 								console.log($scope.selectedContestGroup);
+								if (1 == $scope.selectedContestGroup.role.idrole) {
+									$scope.isForJudge = true;
+								} else if (2 == $scope.selectedContestGroup.role.idrole) {
+									$scope.isForJudge = false;
+								}
 								loadContestors();
 							};
 
 							$scope.doScore = function(record) {
 								$scope.contestorToScore = angular.copy(record);
+								$scope.isScoring = true;
 							};
 
 							$scope.submitScore = function(record) {
@@ -99,6 +105,7 @@ angular
 															+ ': '
 															+ error.message;
 												});
+								$scope.isScoring = false;
 
 							};
 
