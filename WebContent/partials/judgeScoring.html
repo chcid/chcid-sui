@@ -1,144 +1,240 @@
+<div class="modal fade" id="resetStopwatchModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"></div>
+			<div class="modal-body">
+				<h5 class="modal-title" id="myModalLabel">Are you sure you want
+					to reset the Stop Watch?</h5>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-lg" data-dismiss="modal">No</button>
+				<button type="button" class="btn  btn-primary btn-lg"
+					data-dismiss="modal" ng-click="speechStopwatch.reset()">Yes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="passwordIncorrectModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header"></div>
+			<div class="modal-body">
+				<h2 class="modal-title" id="myModalLabel">
+					<span class="label label-danger">Password Incorrect!</span>
+				</h2>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-primary btn-lg"
+					data-dismiss="modal">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="signAndSubmitModal" tabindex="-1"
+	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h2 class="modal-title" id="myModalLabel">
+					<span class="label label-danger">Please Note:</span>
+				</h2>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-error">
+					<h4>
+						Once you sign and submit, you won't be able to come back to <span
+							class="label label-warning">View and Modify</span> the Score
+						Sheet.
+					</h4>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-lg"
+					data-dismiss="modal">Cancel</button>
+				<button ng-click="doSignAndSubmit()" type="button"
+					class="btn btn-danger btn-primary btn-lg" data-dismiss="modal">Continue
+					to Sign</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="container">
 	<div ng-hide="isScoring" ng-init="isScoring=false">
-		<div id="judgeLoginTable">
+		<div id="judgeLoginTable" ng-show="selectContestGroups == nul">
 			<table class="table">
 				<tbody>
 					<tr>
-						<td><label>Please select your name:</label></td>
+						<td><label>Filter: </td>
+						<td></label> <input type="text" ng-model="loginNameFilter" /> </label></td>
 					</tr>
 					<tr>
-						<td><select ng-change="selectedStaffChanged()"
-							class="form-control" ng-model="selectedStaff"
-							ng-options="(selectLoginStaff.chineseLastName+''+selectLoginStaff.chineseFirstName+' - '+selectLoginStaff.englishLastName+', '+selectLoginStaff.englishFirstName ) for selectLoginStaff in selectLoginStaffs">
-								<option value="">-- Please Select one --</option>
+						<td><label>Name:</label></td>
+						<td><select class="form-control" ng-model="selectedStaff"
+							ng-options="(selectLoginStaff.chineseLastName+''+selectLoginStaff.chineseFirstName+' - '+selectLoginStaff.englishLastName+', '+selectLoginStaff.englishFirstName ) for selectLoginStaff in selectLoginStaffs | filter:loginNameFilter | orderBy:'englishLastName'">
+								<option value="">-- Please Select the Judge --</option>
 						</select></td>
 					</tr>
 					<tr>
-						<td><label>Please select the Group to Score:</label></td>
+						<td><label>Pin:</label></td>
+						<td><input type="password" ng-model="password" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td align="right"><button ng-click="selectedStaffChanged()"
+								class="btn btn-success btn-large" type="button">Start</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="judgeContestgroupTable" ng-show="selectContestGroups != null">
+			<table class="table">
+				<tbody>
+					<tr>
+						<td><label>{{selectedStaff.chineseLastName}}{{selectedStaff.chineseFirstName}}
+								- {{selectedStaff.englishLastName}},
+								{{selectedStaff.englishFirstName}}<br>Please select the
+								Group to Score:
+						</label></td>
 					</tr>
 					<tr>
 						<td><select ng-change="selectedContestGroupChanged()"
 							class="form-control" ng-model="selectedContestGroup"
-							ng-options="(selectContestGroup.name+' - '+selectContestGroup.contestLocation.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups">
+							ng-options="(selectContestGroup.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups | orderBy:'name'">
 								<option value="">-- Please Select one --</option>
 						</select></td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div id="judgeScoreSheetTable" ng-show="isForJudge">
-			Filter: <input ng-model="filterText" type="text"><br>
-			<table class="table table-striped"
-				ng-init="predicate = 'contestOrder'">
-				<thead>
-					<tr>
-						<th><a href=""
-							ng-click="predicate = 'contestOrder';
+		<div ng-show="selectedContestGroup != null">
+			<div id="judgeScoreSheetTable" ng-show="isForJudge">
+				<!-- Filter: <input ng-model="filterText" type="text"><br-->
+				<table class="table table-striped"
+					ng-init="predicate = 'contestOrder'">
+					<thead>
+						<tr>
+							<th><a href=""
+								ng-click="predicate = 'contestOrder';
 					reverse=!reverse">順序</a></th>
-						<th><a href=""
-							ng-click="predicate = 'students';
+							<th><a href=""
+								ng-click="predicate = 'students';
 					reverse=!reverse">學生姓名</a></th>
-						<th><a href=""
-							ng-click="predicate = 'speechTitle';
+							<th><a href=""
+								ng-click="predicate = 'speechTitle';
 					reverse=!reverse">演講題目</a></th>
-						<th
-							ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscoreRuleItem'">{{scoreRuleItem.name}}({{scoreRuleItem.weight}}%)</th>
-						<th><a href=""
-							ng-click="predicate = 'totalScore';
+							<th
+								ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscoreRuleItem'">{{scoreRuleItem.name}}
+								{{scoreRuleItem.weight}} %</th>
+							<th><a href=""
+								ng-click="predicate = 'totalScore';
 					reverse=!reverse">總分</a></th>
-						<th>action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr
-						ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
-						<td>{{record.contestOrder}}</td>
-						<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}{{student.englishFirstName}}{{student.englishLastName}}
-						</span></td>
-						<td>{{record.speechTitle}}</td>
-						<td
-							ng-repeat="score in record.scoreRuleItems | orderBy:'idscore_ruleItem'">{{score.name}}-{{score.speechScore.score}}</td>
-						<td>{{record.totalScore}}</td>
-						<td><a ng-click='doScore(record)'
-							class="btn btn-default btn-sm" href=""> <i
-								class="fa fa-pencil fa-lg"></i>
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div id="timerScoreSheetTable" ng-hide="isForJudge">
-			Filter: <input ng-model="filterText" type="text"><br>
-			<table class="table table-striped"
-				ng-init="predicate = 'contestOrder'">
-				<thead>
-					<tr>
-						<th><a href=""
-							ng-click="predicate = 'contestOrder';
+							<th>action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
+							<td>{{record.contestOrder}}</td>
+							<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}
+									{{student.englishFirstName}} {{student.englishLastName}} </span></td>
+							<td>{{record.speechTitle}}</td>
+							<td
+								ng-repeat="score in record.scoreRuleItems | orderBy:'idscore_ruleItem'">{{score.speechScore.score}}</td>
+							<td>{{record.totalScore}}</td>
+							<td><a ng-click='doScore(record)'
+								class="btn btn-default btn-lg" href=""> <i
+									class="fa fa-pencil fa-lg"></i>
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div id="timerScoreSheetTable" ng-hide="isForJudge">
+				<!-- Filter: <input ng-model="filterText" type="text"><br-->
+				<table class="table table-striped"
+					ng-init="predicate = 'contestOrder'">
+					<thead>
+						<tr>
+							<th><a href=""
+								ng-click="predicate = 'contestOrder';
 					reverse=!reverse">順序</a></th>
-						<th><a href=""
-							ng-click="predicate = 'students';
+							<th><a href=""
+								ng-click="predicate = 'students';
 					reverse=!reverse">學生姓名</a></th>
-						<th><a href=""
-							ng-click="predicate = 'speechTitle';
+							<th><a href=""
+								ng-click="predicate = 'speechTitle';
 					reverse=!reverse">演講題目</a></th>
 
-						<th><a href=""
-							ng-click="predicate = 'timeScore';
+							<th><a href=""
+								ng-click="predicate = 'timeScore';
 					reverse=!reverse">計時</a></th>
 
-						<th><a href=""
-							ng-click="predicate = 'scoreMarking.rollCallMarking';
+							<th><a href=""
+								ng-click="predicate = 'scoreMarking.rollCallMarking';
 					reverse=!reverse">點名扣分</a></th>
 
-						<th><a href=""
-							ng-click="predicate = 'scoreMarking.flashLightMarking';
+							<th><a href=""
+								ng-click="predicate = 'scoreMarking.flashLightMarking';
 					reverse=!reverse">閃光燈扣分</a></th>
 
-						<th><a href=""
-							ng-click="predicate = 'scoreMarking.audienceHelper';
-					reverse=!reverse">家長提詞/手勢</a></th>
+							<th><a href=""
+								ng-click="predicate = 'scoreMarking.audienceHelper';
+					reverse=!reverse">家長提詞
+									/ 手勢</a></th>
 
-						<th><a href=""
-							ng-click="predicate = 'scoreMarking.absence';
+							<th><a href=""
+								ng-click="predicate = 'scoreMarking.absence';
 					reverse=!reverse">不到棄權</a></th>
 
-						<th>action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr
-						ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
-						<td>{{record.contestOrder}}</td>
-						<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}{{student.englishFirstName}}{{student.englishLastName}}
-						</span></td>
-						<td>{{record.speechTitle}}</td>
-						<td>{{record.timeScore.minute}} 分 {{record.timeScore.second}}
-							秒</td>
-						<td>{{record.scoreMarking.rollCallMarking}}</td>
-						<td>{{record.scoreMarking.flashLightMarking}}</td>
-						<td>{{record.scoreMarking.audienceHelper}}</td>
-						<td>{{record.scoreMarking.absence}}</td>
-						<td><a ng-click='doScore(record)'
-							class="btn btn-default btn-sm" href=""> <i
-								class="fa fa-pencil fa-lg"></i>
-						</a></td>
-					</tr>
-				</tbody>
-			</table>
+							<th>action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							ng-repeat="record in contestorsForJudgeToScore | filter:filterText | orderBy:predicate:reverse">
+							<td>{{record.contestOrder}}</td>
+							<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}
+									{{student.englishFirstName}} {{student.englishLastName}} </span></td>
+							<td>{{record.speechTitle}}</td>
+							<td>{{record.timeScore.minute}} 分
+								{{record.timeScore.second}} 秒</td>
+							<td>{{record.scoreMarking.rollCallMarking}}</td>
+							<td>{{record.scoreMarking.flashLightMarking}}</td>
+							<td>{{record.scoreMarking.audienceHelper}}</td>
+							<td>{{record.scoreMarking.absenceText}}</td>
+							<td><a ng-click='doScore(record)'
+								class="btn btn-default btn-lg" href=""> <i
+									class="fa fa-pencil fa-lg"></i>
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div align="right">
+				<button data-toggle="modal" data-target="#signAndSubmitModal"
+					class="btn btn-danger">Sign and Submit ~
+					{{selectedStaff.chineseLastName}}{{selectedStaff.chineseFirstName}}
+					- {{selectedStaff.englishLastName}},
+					{{selectedStaff.englishFirstName}}</button>
+			</div>
 		</div>
 	</div>
 	<div id="contestorToScoreTable" ng-show="isScoring">
 		<table class="table" ng-show="isForJudge">
 			<tbody>
 				<tr>
-					<td><label>Please give the score:</label></td>
-					<td></td>
-				</tr>
-				<tr>
 					<td><label>學生姓名:</label></td>
-					<td><span ng-repeat="student in contestorToScore.students">{{student.chineseLastName}}{{student.chineseFirstName}}{{student.englishFirstName}}{{student.englishLastName}}
-					</span></td>
+					<td><span ng-repeat="student in contestorToScore.students">{{student.chineseLastName}}{{student.chineseFirstName}}
+							{{student.englishFirstName}} {{student.englishLastName}} </span></td>
 				</tr>
 				<tr>
 					<td><label>演講題目:</label></td>
@@ -146,16 +242,18 @@
 				</tr>
 				<tr ng-repeat="scoreRuleItem in contestorToScore.scoreRuleItems">
 					<td><label>{{scoreRuleItem.name}}({{scoreRuleItem.weight}}%):</label></td>
-					<td><input type="text"
-						ng-model="scoreRuleItem.speechScore.score"
-						value="{{scoreRuleItem.speechScore.score}}" /></td>
+					<td><span class="label label-danger">0</span> <input
+						type="text" ng-model="scoreRuleItem.speechScore.score"
+						value="{{scoreRuleItem.speechScore.score}}" size="3" /> <span
+						class="label label-success">100</span></td>
 				</tr>
 				<tr>
-					<td></td>
-					<td align="right"><button ng-click="isScoring=false"
-							type="button" class="btn btn-default">Cancel</button>
+					<td aling="left"><button ng-click="isScoring=false"
+							type="button" class="btn btn-default btn-lg">Cancel</button></td>
+					<td align="right">
 						<button ng-click="submitScore(contestorToScore)" type="button"
-							class="btn btn-primary">Save</button></td>
+							class="btn btn-primary btn-lg">Save</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -163,60 +261,96 @@
 		<table class="table" ng-hide="isForJudge">
 			<tbody>
 				<tr>
-					<td><label>Please give the time and marking:</label></td>
-					<td></td>
-				</tr>
-				<tr>
 					<td><label>學生姓名:</label></td>
-					<td><span ng-repeat="student in contestorToScore.students">{{student.chineseLastName}}{{student.chineseFirstName}}{{student.englishFirstName}}{{student.englishLastName}}
-					</span></td>
+					<td><span ng-repeat="student in contestorToScore.students">{{student.chineseLastName}}{{student.chineseFirstName}}
+							{{student.englishFirstName}} {{student.englishLastName}} </span></td>
 				</tr>
 				<tr>
 					<td><label>演講題目:</label></td>
 					<td>{{contestorToScore.speechTitle}}</td>
 				</tr>
 				<tr>
-					<td><label>時間:</label></td>
-					<td><input type="text"
+					<td><label>時間:</label>
+						<div>
+							<div style="float: left;">
+								<h4>
+									<span class="label label-success">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</span>
+								</h4>
+							</div>
+							<div align="left" style="float: left; padding-left: 15px;">
+								<botton
+									ng-click="contestorToScore.timeScore.minute=speechStopwatch.data.m;contestorToScore.timeScore.second=speechStopwatch.data.s"
+									class="btn btn-primary btn-sm">Apply</botton>
+							</div>
+						</div>
+						<div style="padding-top: 15px; clear: both;">
+							<div style="float: left; width: 33%;">
+								<a ng-click='speechStopwatch.start()'> <i
+									class="fa fa-play fa-lg"></i>
+								</a>
+							</div>
+							<div align="center" style="float: left; width: 33%;">
+								<span class="label label-danger"><a data-toggle="modal"
+									data-target="#resetStopwatchModal"><i
+										class="fa fa-refresh fa-lg"></i></a></span>
+							</div>
+							<div align="right "float:rigth; width: 34%;">
+								<a ng-click='speechStopwatch.stop()'><i
+									class="fa fa-pause fa-lg"></i></a>
+							</div>
+						</div>
+					<td><input size="2" type="text"
 						ng-model="contestorToScore.timeScore.minute"
 						value="{{contestorToScore.timeScore.minute}}"> 分 <input
-						type="text" ng-model="contestorToScore.timeScore.second"
+						size="2" type="text" ng-model="contestorToScore.timeScore.second"
 						value="
-						{{contestorToScore.timeScore.second}}"> 秒</td>
+						{{contestorToScore.timeScore.second}}"> 秒<br>
+						<br></td>
+					</td>
 				</tr>
 				<tr>
 					<td><label>點名扣分:</label></td>
-					<td><input type="text"
+					<td><input
 						ng-model="contestorToScore.scoreMarking.rollCallMarking"
-						value="{{contestorToScore.acoreMarking.rollCallMarking}}"></td>
+						ng-true-value="-1" ng-false-value="0"
+						ng-checked="contestorToScore.scoreMarking.rollCallMarking=='-1'"
+						type="checkbox" /> <label>違規</label></td>
+
 				</tr>
 				<tr>
 					<td><label>閃光燈扣分:</label></td>
-					<td><input type="text"
+					<td><input
 						ng-model="contestorToScore.scoreMarking.flashLightMarking"
-						value="{{contestorToScore.acoreMarking.flashLightMarking}}"></td>
+						ng-true-value="-1" ng-false-value="0"
+						ng-checked="contestorToScore.scoreMarking.flashLightMarking=='-1'"
+						type="checkbox" /> <label>違規</label></td>
 				</tr>
 				<tr>
 					<td><label>家長提詞/手勢:</label></td>
-					<td><input type="text"
+					<td><input
 						ng-model="contestorToScore.scoreMarking.audienceHelper"
-						value="{{contestorToScore.acoreMarking.audienceHelper}}"></td>
+						ng-true-value="-2" ng-false-value="0"
+						ng-checked="contestorToScore.scoreMarking.audienceHelper=='-2'"
+						type="checkbox" /> <label>違規</label></td>
 				</tr>
 				<tr>
 					<td><label>不到棄權:</label></td>
-					<td><input type="text"
-						ng-model="contestorToScore.scoreMarking.absence"
-						value="{{contestorToScore.acoreMarking.rollCallAbsence}}"></td>
+					<td><input ng-model="contestorToScore.scoreMarking.absence"
+						ng-true-value="-1" ng-false-value="0"
+						ng-checked="contestorToScore.scoreMarking.absence=='-1'"
+						type="checkbox" /> <label>棄權</label></td>
 				</tr>
 				<tr>
-					<td></td>
-					<td align="right"><button ng-click="isScoring=false"
-							type="button" class="btn btn-default">Cancel</button>
-						<button ng-click="submitScore(contestorToScore)" type="button"
-							class="btn btn-primary">Save</button></td>
+					<td aling="left"><button
+							ng-click="isScoring=false;speechStopwatch.stop()" type="button"
+							class="btn btn-default btn-lg">Cancel</button></td>
+					<td align="right">
+						<button
+							ng-click="submitScore(contestorToScore);speechStopwatch.stop()"
+							type="button" class="btn btn-primary btn-lg">Save</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>
-
 	</div>
 </div>

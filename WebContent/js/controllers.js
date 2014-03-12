@@ -9,8 +9,40 @@ angular
 				[
 						'$scope',
 						'dataFactory',
+						'stopwatch',
 						'$routeParams',
-						function($scope, dataFactory, $routeParams) {
+						function($scope, dataFactory, stopwatch, $routeParams) {
+							$scope.speechStopwatch = stopwatch;
+
+							$scope.doSignAndSubmit = function() {
+								// console.log(record);
+								var tableName = "judge";
+								var record = angular
+										.copy($scope.selectedContestGroup.judge);
+								record.submit = true;
+								dataFactory
+										.updateRecord(record, tableName)
+										.success(
+												function() {
+													$scope.status = 'Updated '
+															+ tableName;
+													$scope.selectedContestGroup = null;
+													$scope
+															.selectedStaffChanged();
+												})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to update '
+															+ tableName
+															+ ': '
+															+ error.message;
+												});
+							};
+
+							$scope.doIt = function() {
+								alert("Hello");
+								return false;
+							};
 
 							var loadContestors = function() {
 								loadContestorsForJudgeToScore(
@@ -55,6 +87,13 @@ angular
 												});
 							};
 							$scope.selectedStaffChanged = function() {
+								if (null != $scope.selectedStaff.password
+										&& "" != $scope.selectedStaff.password) {
+									if ($scope.password != $scope.selectedStaff.password) {
+										$("#passwordIncorrectModal").modal();
+										return false;
+									}
+								}
 								dataFactory
 										.getSelectContestGroupListForLoginedStaff(
 												$scope.selectedStaff.idstaff)
@@ -81,13 +120,14 @@ angular
 							};
 
 							$scope.doScore = function(record) {
+								$scope.contestorToScore = {};
 								$scope.contestorToScore = angular.copy(record);
 								$scope.isScoring = true;
 							};
 
 							$scope.submitScore = function(record) {
 								console.log(record);
-								var tableName = "speech_score"
+								var tableName = "speech_score";
 								dataFactory
 										.updateRecord(record, tableName)
 										.success(

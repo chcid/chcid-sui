@@ -39,6 +39,11 @@
 									<option value="">-- Please Select one --</option>
 							</select></td>
 						</tr>
+						<tr>
+							<td><label>已簽發:</label></td>
+							<td><input ng-model="recordToUpdate.submit" type="checkbox" />
+								<label>簽發</label></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -64,6 +69,9 @@
 				<th><a href=""
 					ng-click="predicate = 'role.name';
 					reverse=!reverse">職責</a></th>
+				<th><a href=""
+					ng-click="predicate = 'submit';
+					reverse=!reverse">已簽發</a></th>
 				<th>action <a class="btn btn-default btn-sm" href=""
 					ng-click='doCreate()' data-toggle="modal"
 					data-target="#updateInsertModal"> <i class="fa fa-plus fa-lg"></i></a></th>
@@ -76,6 +84,7 @@
 				<td>{{record.staff.chineseLastName}}{{record.staff.chineseFirstName}}-{{record.staff.englishLastName}},{{record.staff.englishFirstName}}
 				</td>
 				<td>{{record.role.name}}</td>
+				<td>{{record.isSubmitText}}</td>
 				<td><a ng-click='doUpdate(record)' data-toggle="modal"
 					data-target="#updateInsertModal" class="btn btn-default btn-sm"
 					href=""> <i class="fa fa-pencil fa-lg"></i>
