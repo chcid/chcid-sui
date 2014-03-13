@@ -37,9 +37,11 @@
 						</tr>
 						<tr>
 							<td><label>入學年次:</label></td>
-							<td><input type="text" placeholder="入學年次"
+							<td><select class="form-control"
 								ng-model="recordToUpdate.gradYear"
-								value="{{recordToUpdate.gradYear}}" /></td>
+								ng-options="gradYear.name for gradYear in gradYears">
+									<option value="">-- Please Select one --</option>
+							</select></td>
 						</tr>
 					</tbody>
 				</table>
@@ -54,7 +56,8 @@
 </div>
 <div class="container">
 	Filter: <input ng-model="filterText" type="text"><br>
-	<table class="table table-striped" ng-init="predicate = 'gradYear'">
+	<table class="table table-striped"
+		ng-init="predicate = 'gradYear.name'">
 		<thead>
 			<tr>
 				<th><a href=""
@@ -72,7 +75,7 @@
 					reverse=!reverse">First
 						Name</a></th>
 				<th><a href=""
-					ng-click="predicate = 'gradYear';
+					ng-click="predicate = 'gradYear.name';
 					reverse=!reverse">入學年次</a></th>
 				<th>action <a class="btn btn-default btn-sm" href=""
 					ng-click='doCreate()' data-toggle="modal"
@@ -86,7 +89,7 @@
 				<td>{{student.chineseFirstName}}</td>
 				<td>{{student.englishLastName}},</td>
 				<td>{{student.englishFirstName}}</td>
-				<td>{{student.gradYear}}</td>
+				<td>{{student.gradYear.name}}</td>
 				<td><a ng-click='doUpdate(student)' data-toggle="modal"
 					data-target="#updateInsertModal" class="btn btn-default btn-sm"
 					href=""> <i class="fa fa-pencil fa-lg"></i>

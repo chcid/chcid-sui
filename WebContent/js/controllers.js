@@ -162,6 +162,18 @@ angular
 
 							var TableName = $routeParams.tableName;
 
+							var loadGradYears = function() {
+								dataFactory.getAllRecords("grad_year").success(
+										function(resultSet) {
+											$scope.gradYears = resultSet;
+										}).error(
+										function(error) {
+											$scope.status = 'Unable to load '
+													+ "grad_year" + ' data: '
+													+ error.message;
+										});
+							};
+
 							var loadStaffs = function() {
 								dataFactory.getAllRecords("staff").success(
 										function(resultSet) {
@@ -309,6 +321,8 @@ angular
 								loadContestGroups();
 								loadStaffs();
 								loadRoles();
+							} else if ("student" == TableName) {
+								loadGradYears();
 							}
 							var IdColName = "id" + TableName;
 
@@ -433,6 +447,14 @@ angular
 												+ $scope.recordToUpdate.role.idrole
 												+ "']");
 							};
+							
+							var setUpSelectDropdownGradYear = function() {
+								var dom = jsel($scope.gradYears);
+								$scope.recordToUpdate.gradYear = dom
+										.select("//*[@idgrad_year='"
+												+ $scope.recordToUpdate.gradYear.idgrad_year
+												+ "']");
+							};
 
 							$scope.doUpdate = function(record) {
 								$scope.modalTitle = "Update this " + TableName;
@@ -463,6 +485,8 @@ angular
 									setUpSelectDropdownContestGroup();
 									setUpSelectDropdownStaff();
 									setUpSelectDropdownRole();
+								} else if ("student" == TableName) {
+									setUpSelectDropdownGradYear();
 								}
 							};
 
