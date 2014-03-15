@@ -1,0 +1,75 @@
+<div class="container">
+
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<td><label>Contest Group:</label></td>
+				<td><select ng-change="selectedContestGroupChanged()"
+					class="form-control" ng-model="selectedContestGroup"
+					ng-options="contestGroup.name for contestGroup in contestGroups">
+						<option value="">-- Please Select the Contest Group --</option>
+				</select></td>
+				<td><button ng-click="selectedContestGroupChanged()" class="btn btn-primary">Refresh</button></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div ng-show="contestors != null">
+		<table class="table table-striped" ng-init="predicate = 'finalRanke'">
+			<thead>
+				<tr>
+					<th><a href=""
+						ng-click="predicate = 'finalRank';
+					reverse=!reverse">名次</a></th>
+					<th><a href=""
+						ng-click="predicate = 'contestOrder';
+					reverse=!reverse">出場順序</a></th>
+					<th><a href=""
+						ng-click="predicate = 'students';
+					reverse=!reverse">學生姓名</a></th>
+					<th><a href=""
+						ng-click="predicate = 'speechTitle';
+					reverse=!reverse">演講題目</a></th>
+					<th
+						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscore_rule_item'">{{scoreRuleItem.name}}
+						{{scoreRuleItem.weight}} % 總分</th>
+
+					<th><a href=""
+						ng-click="predicate = 'speechScoreTotal';
+					reverse=!reverse">演講總分</a></th>
+
+					<th><a href=""
+						ng-click="predicate = 'scoreMarkingTotal';
+					reverse=!reverse">違規扣分</a></th>
+
+					<th><a href=""
+						ng-click="predicate = 'timeScoreTotal';
+					reverse=!reverse">時間扣分</a></th>
+
+					<th><a href=""
+						ng-click="predicate = 'finalScore';
+					reverse=!reverse">最後分數</a></th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="record in contestors | orderBy:predicate:reverse">
+					<td>{{record.finalRank}}</td>
+					<td>{{record.contestOrder}}</td>
+					<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}
+							{{student.englishFirstName}} {{student.englishLastName}} </span></td>
+					<td>{{record.speechTitle}}</td>
+					<td
+						ng-repeat="score in record.scoreRuleItemSums | orderBy:'idscore_ruleItem'">{{score.speechScore.score}}</td>
+
+					<td>{{record.totalSpeechScore}}</td>
+					<td>{{record.totalScoreMarking}}</td>
+					<td>{{record.totalTimeScore}}</td>
+					<td>{{record.finalScore}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

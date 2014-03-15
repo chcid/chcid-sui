@@ -5,6 +5,48 @@
 angular
 		.module('speechApp.controllers', [])
 		.controller(
+				'scoreReportController',
+				[
+						'$scope',
+						'dataFactory',
+						'$routeParams',
+						function($scope, dataFactory, $routeParams) {
+							var loadActivateContestContestGroups = function() {
+								dataFactory
+										.getActivateContestContestGroups()
+										.success(function(resultSet) {
+											$scope.contestGroups = resultSet;
+											console.log($scope.contestGroups);
+										})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "contest_group"
+															+ ' data: '
+															+ error.message;
+												});
+
+							};
+							$scope.selectedContestGroupChanged = function() {
+								dataFactory
+										.getContestorsByContestGroupId(
+												$scope.selectedContestGroup.idcontest_group)
+										.success(function(resultSet) {
+											$scope.contestors = resultSet;
+											console.log($scope.contestors);
+										})
+										.error(
+												function(error) {
+													$scope.status = 'Unable to load '
+															+ "contestors"
+															+ ' data: '
+															+ error.message;
+												});
+							};
+							loadActivateContestContestGroups();
+
+						} ])
+		.controller(
 				'judgeScoringController',
 				[
 						'$scope',
@@ -447,7 +489,7 @@ angular
 												+ $scope.recordToUpdate.role.idrole
 												+ "']");
 							};
-							
+
 							var setUpSelectDropdownGradYear = function() {
 								var dom = jsel($scope.gradYears);
 								$scope.recordToUpdate.gradYear = dom
