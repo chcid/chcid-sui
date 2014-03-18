@@ -10,7 +10,22 @@ angular
 						'$scope',
 						'dataFactory',
 						'$routeParams',
-						function($scope, dataFactory, $routeParams) {
+						'$timeout',
+						function($scope, dataFactory, $routeParams, $timeout) {
+							var scoreMonitor = null;
+							var startMonitor = function() {
+								scoreMonitor = $timeout(function() {
+									selectedContestGroupChanged();
+									startMonitor();
+								}, 5000);
+							};
+							$scope.startMonitor = function() {
+								startMonitor();
+							};
+							$scope.stopMonitor = function() {
+								$timeout.cancel(scoreMonitor);
+								scoreMonitor = null;
+							}
 							var loadActivateContestContestGroups = function() {
 								dataFactory
 										.getActivateContestContestGroups()
@@ -27,7 +42,7 @@ angular
 												});
 
 							};
-							$scope.selectedContestGroupChanged = function() {
+							var selectedContestGroupChanged = function() {
 								dataFactory
 										.getContestorsByContestGroupId(
 												$scope.selectedContestGroup.idcontest_group)
@@ -42,6 +57,10 @@ angular
 															+ ' data: '
 															+ error.message;
 												});
+
+							};
+							$scope.selectedContestGroupChanged = function() {
+								selectedContestGroupChanged();
 							};
 							loadActivateContestContestGroups();
 
