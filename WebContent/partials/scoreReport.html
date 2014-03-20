@@ -10,7 +10,8 @@
 					ng-options="contestGroup.name for contestGroup in contestGroups">
 						<option value="">-- Please Select the Contest Group --</option>
 				</select></td>
-				<td><button ng-click="selectedContestGroupChanged()" class="btn btn-primary">Refresh</button></td>
+				<td><button ng-click="selectedContestGroupChanged()"
+						class="btn btn-primary">Refresh</button></td>
 			</tr>
 		</tbody>
 	</table>
@@ -32,7 +33,7 @@
 						ng-click="predicate = 'speechTitle';
 					reverse=!reverse">演講題目</a></th>
 					<th
-						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscore_rule_item'">{{scoreRuleItem.name}}
+						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
 						{{scoreRuleItem.weight}} % 總分</th>
 
 					<th><a href=""

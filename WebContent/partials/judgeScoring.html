@@ -131,7 +131,7 @@
 								ng-click="predicate = 'speechTitle';
 					reverse=!reverse">演講題目</a></th>
 							<th
-								ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscore_rule_item'">{{scoreRuleItem.name}}
+								ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
 								{{scoreRuleItem.weight}} %</th>
 							<th><a href=""
 								ng-click="predicate = 'totalScore';
@@ -147,7 +147,7 @@
 									{{student.englishFirstName}} {{student.englishLastName}} </span></td>
 							<td>{{record.speechTitle}}</td>
 							<td
-								ng-repeat="score in record.scoreRuleItems | orderBy:'idscore_rule_item'">{{score.speechScore.score}} - {{score.name}}</td>
+								ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}} - {{score.name}}</td>
 							<td>{{record.totalScore}}</td>
 							<td><a ng-click='doScore(record)'
 								class="btn btn-default btn-lg" href=""> <i

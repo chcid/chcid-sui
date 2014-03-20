@@ -38,7 +38,7 @@
 					reverse=!reverse">演講題目</a></th>
 					<th>不到棄權</th>
 					<th
-						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscore_rule_item'">{{scoreRuleItem.name}}
+						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
 						{{scoreRuleItem.weight}} % 總分</th>
 
 					<th><a href=""
@@ -64,7 +64,7 @@
 							<!-- table>
 								<tr>
 									<th
-										ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'idscore_rule_item'">{{scoreRuleItem.name}}
+										ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
 										{{scoreRuleItem.weight}} %</th>
 								</tr>
 							</table-->
@@ -114,7 +114,7 @@
 					<td>{{record.speechTitle}}</td>
 					<td>{{record.abstained}}</td>
 					<td
-						ng-repeat="score in record.scoreRuleItemSums | orderBy:'idscore_ruleItem'">{{score.speechScore.score}}</td>
+						ng-repeat="score in record.scoreRuleItemSums | orderBy:'priority'">{{score.speechScore.score}}</td>
 
 					<td>{{record.totalSpeechScore}}</td>
 					<td>{{record.totalScoreMarking}}</td>
@@ -133,7 +133,7 @@
 							<tbody>
 								<tr>
 									<td
-										ng-repeat="speechScore in contestorScore.speechScores | orderBy: 'scoreRuleItem.idscore_rule_item'">{{speechScore.score}}</td>
+										ng-repeat="speechScore in contestorScore.speechScores | orderBy: 'scoreRuleItem.priority'">{{speechScore.score}}</td>
 								</tr>
 								<tr>
 									<td colspan="{{contestorScore.speechScores.length}}"
@@ -156,13 +156,13 @@
 								<tr
 									ng-class="{success: contestorScore.judge.submit, danger: !contestorScore.judge.submit}">
 									<td
-										ng-repeat="speechScore in contestorScore.speechScores | orderBy:'scoreRuleItem.idscore_rule_item'">{{speechScore.scoreRuleItem.name}}
+										ng-repeat="speechScore in contestorScore.speechScores | orderBy:'scoreRuleItem.priority'">{{speechScore.scoreRuleItem.name}}
 									</td>
 								</tr>
 								<tr
 									ng-class="{success: contestorScore.judge.submit, danger: !contestorScore.judge.submit}">
 									<td
-										ng-repeat="speechScore in contestorScore.speechScores | orderBy:'scoreRuleItem.idscore_rule_item'">{{speechScore.score}}</td>
+										ng-repeat="speechScore in contestorScore.speechScores | orderBy:'scoreRuleItem.priority'">{{speechScore.score}}</td>
 								</tr>
 							</tbody>
 						</table>
