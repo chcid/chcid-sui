@@ -30,6 +30,12 @@
 								ng-model="recordToUpdate.weight"
 								value="{{recordToUpdate.weight}}" /></td>
 						</tr>
+						<tr>
+							<td><label>優先性:</label></td>
+							<td><input type="text" placeholder="優先性"
+								ng-model="recordToUpdate.priority"
+								value="{{recordToUpdate.priority}}" /></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -56,6 +62,9 @@
 				<th><a href=""
 					ng-click="predicate = 'weight';
 					reverse=!reverse">評分比例 </a></th>
+				<th><a href=""
+					ng-click="predicate = 'priority';
+					reverse=!reverse">優先性 </a></th>
 				<th>action <a class="btn btn-default btn-sm" href=""
 					ng-click='doCreate()' data-toggle="modal"
 					data-target="#updateInsertModal"> <i class="fa fa-plus fa-lg"></i></a></th>
@@ -67,6 +76,7 @@
 				<td>{{record.scoreRule.name}}</td>
 				<td>{{record.name}}</td>
 				<td>{{record.weight}} %</td>
+				<td>{{record.priority}}</td>
 				<td><a ng-click='doUpdate(record)' data-toggle="modal"
 					data-target="#updateInsertModal" class="btn btn-default btn-sm"
 					href=""> <i class="fa fa-pencil fa-lg"></i>
