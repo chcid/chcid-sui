@@ -27,7 +27,7 @@
 							<td><label>人員:</label></td>
 							<td><select class="form-control"
 								ng-model="recordToUpdate.staff"
-								ng-options="(staff.chineseLastName+''+staff.chineseFirstName+'-'+staff.englishLastName+', '+staff.englishFirstName ) for staff in staffs">
+								ng-options="(staff.chineseLastName+''+staff.chineseFirstName+'-'+staff.englishLastName+', '+staff.englishFirstName ) for staff in staffs | orderBy:['chineseLastName','englishLastName']">
 									<option value="">-- Please Select one --</option>
 							</select></td>
 						</tr>

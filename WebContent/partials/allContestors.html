@@ -44,11 +44,11 @@
 </div>
 <div class="container">
 	Filter: <input ng-model="filterText" type="text"><br>
-	<table class="table table-striped" ng-init="predicate = 'contestOrder'">
+	<table class="table table-striped" ng-init="predicate = 'contestGroup.name'">
 		<thead>
 			<tr>
 				<th><a href=""
-					ng-click="predicate = 'contestor.contestGroup.name';
+					ng-click="predicate = 'contestGroup.name';
 					reverse=!reverse">比賽組別</a></th>
 				<th><a href=""
 					ng-click="predicate = 'speechTitle';

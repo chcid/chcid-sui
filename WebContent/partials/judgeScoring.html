@@ -71,10 +71,10 @@
 		<div id="judgeLoginTable" ng-show="selectContestGroups == nul">
 			<table class="table">
 				<tbody>
-					<tr>
+					<!-- tr>
 						<td><label>Filter: </td>
 						<td></label> <input type="text" ng-model="loginNameFilter" /> </label></td>
-					</tr>
+					</tr-->
 					<tr>
 						<td><label>Name:</label></td>
 						<td><select class="form-control" ng-model="selectedStaff"
@@ -147,7 +147,8 @@
 									{{student.englishFirstName}} {{student.englishLastName}} </span></td>
 							<td>{{record.speechTitle}}</td>
 							<td
-								ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}} - {{score.name}}</td>
+								ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}}
+								- {{score.name}}</td>
 							<td>{{record.totalScore}}</td>
 							<td><a ng-click='doScore(record)'
 								class="btn btn-default btn-lg" href=""> <i
@@ -178,12 +179,16 @@
 								ng-click="predicate = 'timeScore';
 					reverse=!reverse">計時</a></th>
 
-							<!-- th><a href=""
+							<th><a href=""
 								ng-click="predicate = 'scoreMarking.rollCallMarking';
-					reverse=!reverse">點名扣分</a></th-->
+					reverse=!reverse">點名扣分</a></th>
 
 							<th><a href=""
 								ng-click="predicate = 'scoreMarking.flashLightMarking';
+					reverse=!reverse">閃光燈</a></th>
+
+							<th><a href=""
+								ng-click="predicate = 'scoreMarking.phoneUsed';
 					reverse=!reverse">接聽電話扣分</a></th>
 
 							<th><a href=""
@@ -207,8 +212,9 @@
 							<td>{{record.speechTitle}}</td>
 							<td>{{record.timeScore.minute}} 分
 								{{record.timeScore.second}} 秒</td>
-							<!-- td>{{record.scoreMarking.rollCallMarking}}</td-->
+							<td>{{record.scoreMarking.rollCallMarking}}</td>
 							<td>{{record.scoreMarking.flashLightMarking}}</td>
+							<td>{{record.scoreMarking.phoneUsed}}</td>
 							<td>{{record.scoreMarking.audienceHelper}}</td>
 							<td>{{record.scoreMarking.absenceText}}</td>
 							<td><a ng-click='doScore(record)'
@@ -308,7 +314,7 @@
 						<br></td>
 					</td>
 				</tr>
-				<!-- tr>
+				<tr>
 					<td><label>點名扣分:</label></td>
 					<td><input
 						ng-model="contestorToScore.scoreMarking.rollCallMarking"
@@ -316,13 +322,20 @@
 						ng-checked="contestorToScore.scoreMarking.rollCallMarking=='-1'"
 						type="checkbox" /> <label>違規</label></td>
 
-				</tr-->
+				</tr>
 				<tr>
-					<td><label>接聽電話扣分:</label></td>
+					<td><label>閃光燈:</label></td>
 					<td><input
 						ng-model="contestorToScore.scoreMarking.flashLightMarking"
+						ng-true-value="-1" ng-false-value="0"
+						ng-checked="contestorToScore.scoreMarking.flashLightMarking=='-1'"
+						type="checkbox" /> <label>違規</label></td>
+				</tr>
+				<tr>
+					<td><label>接聽電話扣分:</label></td>
+					<td><input ng-model="contestorToScore.scoreMarking.phoneUsed"
 						ng-true-value="-2" ng-false-value="0"
-						ng-checked="contestorToScore.scoreMarking.flashLightMarking=='-2'"
+						ng-checked="contestorToScore.scoreMarking.phoneUsed=='-2'"
 						type="checkbox" /> <label>違規</label></td>
 				</tr>
 				<tr>

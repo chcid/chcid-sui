@@ -10,17 +10,20 @@
 					ng-options="contestGroup.name for contestGroup in contestGroups">
 						<option value="">-- Please Select the Contest Group --</option>
 				</select></td>
-				<td><button ng-click="selectedContestGroupChanged()"
-						class="btn btn-primary">Refresh</button></td>
-				<td><button ng-click="startMonitor()" class="btn btn-success">Start
+				<td><button ng-disabled="selectedContestGroup==null"
+						ng-click="selectedContestGroupChanged()" class="btn btn-primary">Refresh</button></td>
+				<td><button
+						ng-disabled="scoreMonitor!=null||selectedContestGroup==null"
+						ng-click="startMonitor()" class="btn btn-success">Start
 						Monitor</button></td>
-				<td><button ng-click="stopMonitor()" class="btn btn-danger">Stop
+				<td><button ng-disabled="scoreMonitor==null"
+						ng-click="stopMonitor()" class="btn btn-danger">Stop
 						Monitor</button></td>
 			</tr>
 		</tbody>
 	</table>
 
-	<div ng-show="contestors != null">
+	<div ng-show="selectedContestGroup!=null">
 		<table class="table table-striped" ng-init="predicate = 'finalRanke'">
 			<thead>
 				<tr>
@@ -39,7 +42,8 @@
 					<th>不到棄權</th>
 					<th
 						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
-						{{scoreRuleItem.weight}} % 總分</th>
+						{{scoreRuleItem.weight}} %
+						總分{{selectedContestGroup.scoreCountingType.name}}</th>
 
 					<th><a href=""
 						ng-click="predicate = 'speechScoreTotal';
@@ -77,7 +81,9 @@
 								<tr>
 									<th>計時</th>
 
-									<!-- th>點名扣分</th-->
+									<th>點名扣分</th>
+
+									<th>閃光燈</th>
 
 									<th>接聽電話扣分</th>
 
@@ -115,7 +121,6 @@
 					<td>{{record.abstained}}</td>
 					<td
 						ng-repeat="score in record.scoreRuleItemSums | orderBy:'priority'">{{score.speechScore.score}}</td>
-
 					<td>{{record.totalSpeechScore}}</td>
 					<td>{{record.totalScoreMarking}}</td>
 					<td>{{record.totalTimeScore}}</td>
@@ -173,11 +178,12 @@
 						<table class="table table-striped">
 							<tbody>
 								<tr>
-									<td>{{contestorScore.timeScore.minute}} 分
-										{{contestorScore.timeScore.second}} 秒 <br>{{contestorScore.timeScoreTotal}}
+									<td>{{contestorScore.timeScore.minute}}<br>分<br>
+										{{contestorScore.timeScore.second}}<br>秒<br>({{contestorScore.timeScoreTotal}})
 									</td>
-									<!--td>{{contestorScore.scoreMarking.rollCallMarking}}</td-->
+									<td>{{contestorScore.scoreMarking.rollCallMarking}}</td>
 									<td>{{contestorScore.scoreMarking.flashLightMarking}}</td>
+									<td>{{contestorScore.scoreMarking.phoneUsed}}</td>
 									<td>{{contestorScore.scoreMarking.audienceHelper}}</td>
 									<td>{{contestorScore.scoreMarking.absenceText}}</td>
 								</tr>

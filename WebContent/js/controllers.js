@@ -12,9 +12,10 @@ angular
 						'$routeParams',
 						'$timeout',
 						function($scope, dataFactory, $routeParams, $timeout) {
-							var scoreMonitor = null;
+							//var scoreMonitor = null;
+							$scope.scoreMonitor = null;
 							var startMonitor = function() {
-								scoreMonitor = $timeout(function() {
+								$scope.scoreMonitor = $timeout(function() {
 									selectedContestGroupChanged();
 									startMonitor();
 								}, 5000);
@@ -23,8 +24,8 @@ angular
 								startMonitor();
 							};
 							$scope.stopMonitor = function() {
-								$timeout.cancel(scoreMonitor);
-								scoreMonitor = null;
+								$timeout.cancel($scope.scoreMonitor);
+								$scope.scoreMonitor = null;
 							}
 							var loadActivateContestContestGroups = function() {
 								dataFactory
