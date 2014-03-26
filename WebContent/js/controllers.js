@@ -11,7 +11,7 @@ angular
 						'dataFactory',
 						'$routeParams',
 						'$timeout',
-						function($scope, dataFactory, $routeParams, $timeout) {
+						function($scope, dataFactory, $routeParams, $timeout) { 
 							//var scoreMonitor = null;
 							$scope.scoreMonitor = null;
 							var startMonitor = function() {
@@ -74,6 +74,13 @@ angular
 						'stopwatch',
 						'$routeParams',
 						function($scope, dataFactory, stopwatch, $routeParams) {
+							
+							$scope.scoreRanges = [];
+							for(var i = 80; i <= 100 ; i++ ){
+								//$scope.scoreRanges[i-80] = {};
+								$scope.scoreRanges[i-80] = i;									
+							}
+							console.log($scope.scoreRanges);
 							$scope.speechStopwatch = stopwatch;
 
 							$scope.doSignAndSubmit = function() {

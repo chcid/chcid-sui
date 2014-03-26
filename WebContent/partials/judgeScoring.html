@@ -148,7 +148,7 @@
 							<td>{{record.speechTitle}}</td>
 							<td
 								ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}}
-								- {{score.name}}</td>
+								</td>
 							<td>{{record.totalScore}}</td>
 							<td><a ng-click='doScore(record)'
 								class="btn btn-default btn-lg" href=""> <i
@@ -248,10 +248,13 @@
 				</tr>
 				<tr ng-repeat="scoreRuleItem in contestorToScore.scoreRuleItems">
 					<td><label>{{scoreRuleItem.name}}({{scoreRuleItem.weight}}%):</label></td>
-					<td><span class="label label-danger">0</span> <input
+					<td><!-- span class="label label-danger">80</span--> <!-- input
 						type="text" ng-model="scoreRuleItem.speechScore.score"
-						value="{{scoreRuleItem.speechScore.score}}" size="3" /> <span
-						class="label label-success">100</span></td>
+						value="{{scoreRuleItem.speechScore.score}}" size="3" /--> <select
+						class="form-control" ng-model="scoreRuleItem.speechScore.score"
+						ng-options="value as value for value in scoreRanges">
+							<option value="">-- score --</option>
+					</select><!-- span class="label label-success">100</span--></td>
 				</tr>
 				<tr>
 					<td aling="left"><button ng-click="isScoring=false"
