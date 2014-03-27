@@ -24,7 +24,7 @@
 	</table>
 
 	<div ng-show="selectedContestGroup!=null">
-		<table class="table table-striped" ng-init="predicate = 'finalRanke'">
+		<table class="table table-striped" ng-init="predicate = 'finalRank'">
 			<thead>
 				<tr>
 					<th><a href=""
@@ -42,8 +42,8 @@
 					<th>不到棄權</th>
 					<th
 						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
-						{{scoreRuleItem.weight}} %
-						總分{{selectedContestGroup.scoreCountingType.name}}</th>
+						-- {{scoreRuleItem.weight}} % -- 總分 --
+						{{selectedContestGroup.scoreCountingType.name}}</th>
 
 					<th><a href=""
 						ng-click="predicate = 'speechScoreTotal';
@@ -55,7 +55,8 @@
 
 					<th><a href=""
 						ng-click="predicate = 'timeScoreTotal';
-					reverse=!reverse">時間扣分</a></th>
+					reverse=!reverse">時間扣分
+							-- {{selectedContestGroup.timeLimitRule.name}}</a></th>
 
 					<th><a href=""
 						ng-click="predicate = 'finalScore';
@@ -79,7 +80,7 @@
 						<table class="table table-striped">
 							<thead>
 								<tr>
-									<th>計時</th>
+									<th>計時 -- {{selectedContestGroup.timeLimitRule.name}}</th>
 
 									<th>點名扣分</th>
 
@@ -87,7 +88,7 @@
 
 									<th>接聽電話扣分</th>
 
-									<th>家長提詞 / 手勢</th>
+									<th>家長提詞 -- 手勢</th>
 
 									<th>不到棄權</th>
 								</tr>

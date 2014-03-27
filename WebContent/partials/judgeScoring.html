@@ -79,7 +79,7 @@
 						<td><label>Name:</label></td>
 						<td><select class="form-control" ng-model="selectedStaff"
 							ng-options="(selectLoginStaff.chineseLastName+''+selectLoginStaff.chineseFirstName+' - '+selectLoginStaff.englishLastName+', '+selectLoginStaff.englishFirstName ) for selectLoginStaff in selectLoginStaffs | filter:loginNameFilter | orderBy:'englishLastName'">
-								<option value="">-- Please Select the Judge --</option>
+								<option value="">-- Please Select your name --</option>
 						</select></td>
 					</tr>
 					<tr>
@@ -148,7 +148,7 @@
 							<td>{{record.speechTitle}}</td>
 							<td
 								ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}}
-								</td>
+							</td>
 							<td>{{record.totalScore}}</td>
 							<td><a ng-click='doScore(record)'
 								class="btn btn-default btn-lg" href=""> <i
@@ -246,15 +246,17 @@
 					<td><label>演講題目:</label></td>
 					<td>{{contestorToScore.speechTitle}}</td>
 				</tr>
-				<tr ng-repeat="scoreRuleItem in contestorToScore.scoreRuleItems">
+				<tr ng-repeat="scoreRuleItem in contestorToScore.scoreRuleItems | orderBy:'priority'">
 					<td><label>{{scoreRuleItem.name}}({{scoreRuleItem.weight}}%):</label></td>
-					<td><!-- span class="label label-danger">80</span--> <!-- input
+					<td>
+						<!-- span class="label label-danger">80</span--> <!-- input
 						type="text" ng-model="scoreRuleItem.speechScore.score"
 						value="{{scoreRuleItem.speechScore.score}}" size="3" /--> <select
 						class="form-control" ng-model="scoreRuleItem.speechScore.score"
 						ng-options="value as value for value in scoreRanges">
 							<option value="">-- score --</option>
-					</select><!-- span class="label label-success">100</span--></td>
+					</select> <!-- span class="label label-success">100</span-->
+					</td>
 				</tr>
 				<tr>
 					<td aling="left"><button ng-click="isScoring=false"
@@ -288,7 +290,7 @@
 							</div>
 							<div align="left" style="float: left; padding-left: 15px;">
 								<botton
-									ng-click="contestorToScore.timeScore.minute=speechStopwatch.data.m;contestorToScore.timeScore.second=speechStopwatch.data.s"
+									ng-click="contestorToScore.timeScore.minute=speechStopwatch.data.intM;contestorToScore.timeScore.second=speechStopwatch.data.intS;"
 									class="btn btn-primary btn-sm">Apply</botton>
 							</div>
 						</div>
@@ -308,13 +310,34 @@
 									class="fa fa-pause fa-lg"></i></a>
 							</div>
 						</div>
-					<td><input size="2" type="text"
+					<td>
+						<table class="table">
+							<tr>
+								<td>
+									<!-- input size="2" type="text"
 						ng-model="contestorToScore.timeScore.minute"
-						value="{{contestorToScore.timeScore.minute}}"> 分 <input
-						size="2" type="text" ng-model="contestorToScore.timeScore.second"
+						value="{{contestorToScore.timeScore.minute}}"--> <select
+									style="width: 62px;" class="form-control"
+									ng-model="contestorToScore.timeScore.minute"
+									ng-options="value as value for value in minuteRanges">
+								</select>
+								</td>
+								<td>分</td>
+							</tr>
+							<tr>
+								<td>
+									<!-- input size="2" type="text"
+						ng-model="contestorToScore.timeScore.second"
 						value="
-						{{contestorToScore.timeScore.second}}"> 秒<br>
-						<br></td>
+						{{contestorToScore.timeScore.second}}"--> <select
+									style="width: 62px;" class="form-control"
+									ng-model="contestorToScore.timeScore.second"
+									ng-options="value as value for value in secondRanges">
+								</select>
+								</td>
+								<td>秒</td>
+							</tr>
+						</table>
 					</td>
 				</tr>
 				<tr>

@@ -23,7 +23,7 @@ angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
 				controller : 'recordController'
 			});
 			$routeProvider.when('/viewAllContests/:tableName', {
-				templateUrl : 'partials/allTwoColumnRecords.html',
+				templateUrl : 'partials/allContests.html',
 				controller : 'recordController'
 			});
 			$routeProvider.when('/viewAllContestLocations/:tableName', {

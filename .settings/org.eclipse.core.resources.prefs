@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//WebContent/partials/allContestGroups.html=UTF-8
 encoding//WebContent/partials/allContestorIndividuals.html=UTF-8
 encoding//WebContent/partials/allContestors.html=UTF-8
+encoding//WebContent/partials/allContests.html=UTF-8
 encoding//WebContent/partials/allJudges.html=UTF-8
 encoding//WebContent/partials/allScoreRuleItems.html=UTF-8
 encoding//WebContent/partials/allStaffs.html=UTF-8

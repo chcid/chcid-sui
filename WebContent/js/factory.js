@@ -48,6 +48,8 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
             m: "00",
             s: "00",
             ms: "0",
+            intM: 0,
+            intS: 0,
             laps: []
         },
         stopwatch = null;
@@ -73,9 +75,11 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
     var pushToHMS = function () {
     	var divid = SW_DELAI / 10;
         var time = data.value;
-    	data.m = pad(Math.floor( time / (60 * divid) ),2);
+        data.intM = Math.floor( time / (60 * divid) );
+    	data.m = pad(data.intM,2);
     	time = time % (60 * divid);
-    	data.s = pad(Math.floor( time / divid ),2);
+    	data.intS = Math.floor( time / divid );
+    	data.s = pad(data.intS,2);
     	data.ms = time % divid;
     }
 

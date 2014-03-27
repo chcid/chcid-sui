@@ -33,7 +33,7 @@
 							<td><label>學生:</label></td>
 							<td><select class="form-control"
 								ng-model="recordToUpdate.student"
-								ng-options="(student.chineseLastName+''+student.chineseFirstName+'-'+student.englishLastName+', '+student.englishFirstName ) group by student.gradYear for student in students | filter:studentSelectFilterText">
+								ng-options="(student.chineseLastName+''+student.chineseFirstName+'-'+student.englishLastName+', '+student.englishFirstName ) group by student.gradYear.name for student in students | filter:studentSelectFilterText">
 									<option value="">-- Please Select one --</option>
 							</select></td>
 						</tr>
@@ -54,7 +54,7 @@
 		<thead>
 			<tr>
 				<th><a href=""
-					ng-click="predicate = 'contestor.speechTitle';
+					ng-click="predicate = 'contestor.contestOrder';
 					reverse=!reverse">演講題目</a></th>
 				<th><a href=""
 					ng-click="predicate = 'student.chineseFirstName';
@@ -68,7 +68,7 @@
 			<tr
 				ng-repeat="record in records | filter:filterText | orderBy:predicate:reverse">
 				<td>{{record.contestor.speechTitle}} -
-					{{record.contestor.contestGroup.name}}</td>
+					{{record.contestor.contestGroup.name}} - 順序{{record.contestor.contestOrder}}</td>
 				<td>{{record.student.chineseLastName}}{{record.student.chineseFirstName}}-{{record.student.englishLastName}},{{record.student.englishFirstName}}</td>
 				<td><a ng-click='doUpdate(record)' data-toggle="modal"
 					data-target="#updateInsertModal" class="btn btn-default btn-sm"
