@@ -90,7 +90,7 @@ angular
 								$scope.secondRanges[i] = i;
 							}
 
-							console.log($scope.scoreRanges);
+							//console.log($scope.scoreRanges);
 							$scope.speechStopwatch = stopwatch;
 
 							$scope.doSignAndSubmit = function() {
@@ -202,6 +202,10 @@ angular
 								$scope.contestorToScore = {};
 								$scope.contestorToScore = angular.copy(record);
 								$scope.isScoring = true;
+							};
+							
+							$scope.cancelScore = function() {
+								$scope.isScoring = false;
 							};
 
 							$scope.submitScore = function(record) {

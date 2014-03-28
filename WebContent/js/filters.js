@@ -3,13 +3,22 @@
 /* Filters */
 
 angular.module('speechApp').filter('getOnlyRoleFilter', function() {
-	return function(contestorScores, idrole) {
+	return function(contestorScores, idroles) {
 		if (!contestorScores) {
 			return null;
 		}
+		
+		var isInRoles = function(id, idroles){
+			for( var i = 0 ; i < idroles.length; i++){
+				if ( id == idroles[i]){
+					return true;
+				}
+			}
+			return false;
+		};
 		var arrayToReturn = [];
 		for ( var i = 0; i < contestorScores.length; i++) {
-			if (contestorScores[i].judge.role.idrole == idrole) {
+			if ( isInRoles( contestorScores[i].judge.role.idrole, idroles)) {
 				arrayToReturn.push(contestorScores[i]);
 			}
 		}
