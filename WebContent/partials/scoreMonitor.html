@@ -49,7 +49,7 @@
 
 					<th><a href=""
 						ng-click="predicate = 'totalSpeechScore';
-					reverse=!reverse">演講總分</a></th>
+					reverse=!reverse">演講總分/{{selectedContestGroup.scoreCountingType.name}}</a></th>
 
 					<th><a href=""
 						ng-click="predicate = 'totalScoreMarking';
@@ -62,11 +62,11 @@
 
 					<th><a href=""
 						ng-click="predicate = 'finalScore';
-					reverse=!reverse">最後分數</a></th>
+					reverse=!reverse">最後分數/{{selectedContestGroup.scoreCountingType.name}}</a></th>
 					<!-- th
 						colspan="{{selectedContestGroup.scoreRule.scoreRuleItems.length}}+1"-->
 					<th
-						ng-repeat="contestorScore in contestors[0].contestorScores | getOnlyRoleFilter:'[1,4]' | orderBy: 'judge.idjudge'">{{contestorScore.judge.staff.chineseLastName}}{{contestorScore.judge.staff.chineseFirstName}}-{{contestorScore.judge.role.name}}
+						ng-repeat="contestorScore in contestors[0].contestorScores | getOnlyRoleFilter:'[1,4]' | orderBy: ['judge.role.idrole','judge.idjudge']:true">{{contestorScore.judge.staff.chineseLastName}}{{contestorScore.judge.staff.chineseFirstName}}-{{contestorScore.judge.role.name}}
 						<!-- table>
 								<tr>
 									<th
@@ -127,7 +127,17 @@
 					<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}}
 							{{student.englishFirstName}} {{student.englishLastName}} </span></td>
 					<td>{{record.speechTitle}}</td>
-					<td>{{record.abstained}}</td>
+					<td><div ng-show="record.abstained">
+							<h4>
+								<span class="label label-danger">棄權</span>
+							</h4>
+						</div>
+						<div ng-hide="record.abstained">
+
+							<h4>
+								<span class="label label-success">到</span>
+							</h4>
+						</div></td>
 					<td
 						ng-repeat="score in record.scoreRuleItemSums | orderBy:'priority'">{{score.speechScore.score}}</td>
 					<td>{{record.totalSpeechScore}}</td>
@@ -140,7 +150,7 @@
 
 					<td
 						ng-class="{success: contestorScore.judge.submit, danger: !contestorScore.judge.submit}"
-						ng-repeat="contestorScore in record.contestorScores | getOnlyRoleFilter:'[1,4]' | orderBy:'judge.idjudge'">
+						ng-repeat="contestorScore in record.contestorScores | getOnlyRoleFilter:'[1,4]' | orderBy:['judge.role.idrole','judge.idjudge']:true">
 						<!-- {{contestorScore.judge.staff.chineseLastName}}{{contestorScore.judge.staff.chineseFirstName}}-->
 
 						<table class="table table-striped">
@@ -151,7 +161,14 @@
 								</tr>
 								<tr>
 									<td colspan="{{contestorScore.speechScores.length}}"
-										align="center">{{contestorScore.speechScoreTotal}}</td>
+										align="center"><h4>
+											<span class="label label-default"
+												ng-class="{'label label-danger': contestorScore.judgeMax, 'label label-warning': contestorScore.judgeMin}">{{contestorScore.speechScoreTotal}}</span>
+										</h4></td>
+								</tr>
+								<tr>
+									<td colspan="{{contestorScore.speechScores.length}}"
+										align="center">{{contestorScore.judgeRank}}</td>
 								</tr>
 
 							</tbody>
