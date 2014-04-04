@@ -394,20 +394,33 @@
 							<table class="table" style="background: inherit;">
 								<tbody>
 									<tr>
-										<td><button ng-hide="isUsingStopwatch" type="button"
-												class="btn btn-warning btn-lg" ng-click="toUseStopwatch()">使用碼表</button>
+										<td colspan="2"><button ng-hide="isUsingStopwatch"
+												type="button" class="btn btn-warning btn-lg"
+												ng-click="toUseStopwatch()">使用碼表</button>
 											<div ng-show="isUsingStopwatch">
-												<button ng-hide="speechStopwatch.data.isRunning"
-													type="button" class="btn btn-success btn-lg"
-													ng-click="speechStopwatch.start()">開始 - {{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</button>
+												<button
+													ng-disabled="speechStopwatch.data.intM!=0 || speechStopwatch.data.intS!=0"
+													ng-hide="speechStopwatch.data.isRunning" type="button"
+													class="btn btn-success btn-lg"
+													ng-click="speechStopwatch.start()">開始 -
+													{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</button>
 												<button ng-show="speechStopwatch.data.isRunning"
 													type="button" class="btn  btn-danger btn-lg"
-													ng-click="speechStopwatch.stop()">停 - {{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</button>
+													ng-click="speechStopwatch.stop()">停 -
+													{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</button>
 
 											</div></td>
 
 									</tr>
 									<tr>
+										<td align="left"><div ng-show="isUsingStopwatch">
+												<div>
+													<button
+														ng-hide="speechStopwatch.data.isRunning || (speechStopwatch.data.intM == 0 && speechStopwatch.data.intS == 0)"
+														type="button" class="btn  btn-danger btn-lg"
+														data-dismiss="modal" ng-click="speechStopwatch.reset()">歸零</button>
+												</div>
+											</div></td>
 										<td align="right"><div ng-show="isUsingStopwatch">
 												<div>
 													<button
@@ -418,8 +431,7 @@
 											</div></td>
 									</tr>
 								</tbody>
-							</table>
-				<!-- div>
+							</table> <!-- div>
 								<div style="float: left;">
 									<h4>
 										<span class="label label-success">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</span>
@@ -446,38 +458,38 @@
 										class="fa fa-pause fa-lg"></i></a>
 								</div>
 							</div-->
-				</td>
-				<td>
-					<table class="table" style="background: inherit;">
-						<tr>
-							<td>
-								<!-- input size="2" type="text"
+						</td>
+						<td>
+							<table class="table" style="background: inherit;">
+								<tr>
+									<td>
+										<!-- input size="2" type="text"
 						ng-model="contestorToScore.timeScore.minute"
 						value="{{contestorToScore.timeScore.minute}}"--> <select
-								style="width: 65px;" class="form-control"
-								ng-model="contestorToScore.timeScore.minute"
-								ng-options="value as value for value in minuteRanges">
-							</select>
-							</td>
-							<td>分</td>
-						</tr>
-						<tr>
-							<td>
-								<!-- input size="2" type="text"
+										style="width: 65px;" class="form-control"
+										ng-model="contestorToScore.timeScore.minute"
+										ng-options="value as value for value in minuteRanges">
+									</select>
+									</td>
+									<td>分</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- input size="2" type="text"
 						ng-model="contestorToScore.timeScore.second"
 						value="
 						{{contestorToScore.timeScore.second}}"--> <select
-								style="width: 65px;" class="form-control"
-								ng-model="contestorToScore.timeScore.second"
-								ng-options="value as value for value in secondRanges">
-							</select>
-							</td>
-							<td>秒</td>
-						</tr>
-					</table>
-				</td>
-				</tr>
-				<!-- tr ng-show="isUsingStopwatch">
+										style="width: 65px;" class="form-control"
+										ng-model="contestorToScore.timeScore.second"
+										ng-options="value as value for value in secondRanges">
+									</select>
+									</td>
+									<td>秒</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<!-- tr ng-show="isUsingStopwatch">
 						<td>
 							<h1>
 								<span class="label label-warning">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</span>
@@ -495,7 +507,7 @@
 								ng-click="applySpeechStopwatch()">Apply</button>
 						</td>
 					</tr-->
-				<!-- tr>
+					<!-- tr>
 						<td><label>點名扣分:</label></td>
 						<td><input
 							ng-model="contestorToScore.scoreMarking.rollCallMarking"
@@ -534,14 +546,14 @@
 							ng-checked="contestorToScore.scoreMarking.absence=='-1'"
 							type="checkbox" /> <label>棄權</label></td>
 					</tr-->
-				<tr ng-hide="speechStopwatch.data.isRunning">
-					<td aling="left"><button ng-click="cancelScore()"
-							type="button" class="btn btn-default btn-lg">Cancel</button></td>
-					<td align="right">
-						<button ng-click="submitScore(contestorToScore)" type="button"
-							class="btn btn-primary btn-lg">Save</button>
-					</td>
-				</tr>
+					<tr ng-hide="speechStopwatch.data.isRunning">
+						<td aling="left"><button ng-click="cancelScore()"
+								type="button" class="btn btn-default btn-lg">Cancel</button></td>
+						<td align="right">
+							<button ng-click="submitScore(contestorToScore)" type="button"
+								class="btn btn-primary btn-lg">Save</button>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 
