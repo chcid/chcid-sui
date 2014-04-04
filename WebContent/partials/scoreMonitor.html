@@ -42,10 +42,10 @@
 					<th><a href=""
 						ng-click="predicate = 'abstained';
 					reverse=!reverse">不到棄權</a></th>
-					<th
+					<!-- th
 						ng-repeat="scoreRuleItem in selectedContestGroup.scoreRule.scoreRuleItems | orderBy:'priority'">{{scoreRuleItem.name}}
 						-- {{scoreRuleItem.weight}} % -- 總分 --
-						{{selectedContestGroup.scoreCountingType.name}}</th>
+						{{selectedContestGroup.scoreCountingType.name}}</th-->
 
 					<th><a href=""
 						ng-click="predicate = 'totalSpeechScore';
@@ -138,8 +138,8 @@
 								<span class="label label-success">到</span>
 							</h4>
 						</div></td>
-					<td
-						ng-repeat="score in record.scoreRuleItemSums | orderBy:'priority'">{{score.speechScore.score}}</td>
+					<!-- td
+						ng-repeat="score in record.scoreRuleItemSums | orderBy:'priority'">{{score.speechScore.score}}</td-->
 					<td>{{record.totalSpeechScore}}</td>
 					<td>{{record.totalScoreMarking}}</td>
 					<td>{{record.totalTimeScore}}</td>
