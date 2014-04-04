@@ -44,6 +44,8 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
 } ]).constant('SW_DELAI', 100)
 .factory('stopwatch', function (SW_DELAI,$timeout) {
     var data = { 
+    		start: 0,
+    		isRunning: false,
             value: 0,
             m: "00",
             s: "00",
@@ -54,9 +56,16 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
         },
         stopwatch = null;
         
-    var start = function () {;
+    var start = function () {
+    if ( !data.isRunning ){
+    	data.isRunning = true;
+    } 
+    if( 0 == data.start ){
+		data.start = new Date().getTime()/100;
+	}
+        var current = new Date().getTime()/100;
         stopwatch = $timeout(function() {
-            data.value++;
+            data.value = current - data.start;
             pushToHMS();
             start();
         }, SW_DELAI);
@@ -64,6 +73,7 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
 
     var stop = function () {
         $timeout.cancel(stopwatch);
+        data.isRunning = false;
         stopwatch = null;
     };
     
@@ -80,11 +90,12 @@ angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
     	time = time % (60 * divid);
     	data.intS = Math.floor( time / divid );
     	data.s = pad(data.intS,2);
-    	data.ms = time % divid;
+    	data.ms = Math.floor(time % divid);
     }
 
     var reset = function () {
-        stop()
+        stop();
+        data.start = 0;
         data.value = 0;
         pushToHMS();
         data.laps = [];

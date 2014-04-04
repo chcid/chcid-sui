@@ -75,6 +75,7 @@ angular
 						'$routeParams',
 						function($scope, dataFactory, stopwatch, $routeParams) {
 
+							$scope.isUsingStopwatch = false;
 							$scope.scoreRanges = [];
 							for ( var i = 80; i <= 100; i++) {
 								$scope.scoreRanges[i - 80] = i;
@@ -90,7 +91,7 @@ angular
 								$scope.secondRanges[i] = i;
 							}
 
-							//console.log($scope.scoreRanges);
+							// console.log($scope.scoreRanges);
 							$scope.speechStopwatch = stopwatch;
 
 							$scope.doSignAndSubmit = function() {
@@ -165,6 +166,15 @@ angular
 															+ error.message;
 												});
 							};
+							$scope.toUseStopwatch = function() {
+								$scope.isUsingStopwatch = true;
+								$scope.speechStopwatch.reset();
+							};
+							$scope.applySpeechStopwatch = function() {
+								$scope.contestorToScore.timeScore.minute = $scope.speechStopwatch.data.intM;
+								$scope.contestorToScore.timeScore.second = $scope.speechStopwatch.data.intS;
+								$scope.isUsingStopwatch = false;
+							};
 							$scope.selectedStaffChanged = function() {
 								if (null != $scope.selectedStaff.password
 										&& "" != $scope.selectedStaff.password) {
@@ -202,14 +212,23 @@ angular
 								$scope.contestorToScore = {};
 								$scope.contestorToScore = angular.copy(record);
 								$scope.isScoring = true;
+								if ($scope.contestorToScore.timeScore.minute == 0
+										&& $scope.contestorToScore.timeScore.second == 0) {
+									$scope.isUsingStopwatch = true;
+								} else {
+									$scope.isUsingStopwatch = false;
+								}
+								$scope.speechStopwatch.reset();
 							};
-							
+
 							$scope.cancelScore = function() {
 								$scope.isScoring = false;
+								$scope.speechStopwatch.stop();
 							};
 
 							$scope.submitScore = function(record) {
 								console.log(record);
+								$scope.speechStopwatch.stop();
 								var tableName = "speech_score";
 								dataFactory
 										.updateRecord(record, tableName)

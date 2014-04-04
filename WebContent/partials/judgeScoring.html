@@ -1,3 +1,40 @@
+<div backdrop="static" class="modal fade" id="stopwatchModal"
+	tabindex="1" role="dialog" aria-labelledby="myModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td><label>學生姓名:</label></td>
+							<td><span ng-repeat="student in contestorToScore.students">{{student.chineseLastName}}{{student.chineseFirstName}},</span></td>
+						</tr>
+						<tr>
+							<td><label>演講題目:</label></td>
+							<td>{{contestorToScore.speechTitle}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-body">
+				<h1>
+					<span class="label label-success">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</span>
+				</h1>
+			</div>
+			<div class="modal-footer">
+				<button ng-hide="speechStopwatch.data.isRunning" type="button"
+					class="btn btn-success btn-lg" ng-click="speechStopwatch.start()">Start</button>
+				<button ng-show="speechStopwatch.data.isRunning" type="button"
+					class="btn  btn-danger btn-lg" ng-click="speechStopwatch.stop()">Stop</button>
+				<button ng-hide="speechStopwatch.data.isRunning" type="button"
+					class="btn  btn-primary btn-lg" data-dismiss="modal"
+					ng-click="applySpeechStopwatch()">Apply</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="modal fade" id="resetStopwatchModal" tabindex="-1"
 	role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -177,7 +214,12 @@
 
 								<th><a href=""
 									ng-click="predicate = 'timeScore';
-					reverse=!reverse">計時</a></th>
+					reverse=!reverse">計時
+										- {{selectedContestGroup.timeLimitRule.name}}</a></th>
+
+								<th><a href=""
+									ng-click="predicate = 'timeScore';
+					reverse=!reverse">計時扣分</a></th>
 
 								<!-- th><a href=""
 									ng-click="predicate = 'scoreMarking.rollCallMarking';
@@ -211,6 +253,7 @@
 								<td>{{record.speechTitle}}</td>
 								<td>{{record.timeScore.minute}} 分
 									{{record.timeScore.second}} 秒</td>
+								<td>{{record.judgeTimeScore}}</td>
 								<!-- td>{{record.scoreMarking.rollCallMarking}}</td>
 								<td>{{record.scoreMarking.flashLightMarking}}</td>
 								<td>{{record.scoreMarking.phoneUsed}}</td>
@@ -346,23 +389,51 @@
 						<td>{{contestorToScore.speechTitle}}</td>
 					</tr>
 					<tr>
-						<td><label>時間:</label>
-							<div>
+						<td>
+							<!-- label>時間:</label-->
+							<table class="table" style="background: inherit;">
+								<tbody>
+									<tr>
+										<td><button ng-hide="isUsingStopwatch" type="button"
+												class="btn btn-warning btn-lg" ng-click="toUseStopwatch()">使用碼表</button>
+											<div ng-show="isUsingStopwatch">
+												<button ng-hide="speechStopwatch.data.isRunning"
+													type="button" class="btn btn-success btn-lg"
+													ng-click="speechStopwatch.start()">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</button>
+												<button ng-show="speechStopwatch.data.isRunning"
+													type="button" class="btn  btn-danger btn-lg"
+													ng-click="speechStopwatch.stop()">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</button>
+
+											</div></td>
+
+									</tr>
+									<tr>
+										<td align="right"><div ng-show="isUsingStopwatch">
+												<div>
+													<button
+														ng-hide="speechStopwatch.data.isRunning || (speechStopwatch.data.intM == 0 && speechStopwatch.data.intS == 0)"
+														type="button" class="btn  btn-info btn-lg"
+														data-dismiss="modal" ng-click="applySpeechStopwatch()">Apply</button>
+												</div>
+											</div></td>
+									</tr>
+								</tbody>
+							</table>
+				<!-- div>
 								<div style="float: left;">
 									<h4>
 										<span class="label label-success">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</span>
 									</h4>
 								</div>
 								<div align="left" style="float: left; padding-left: 15px;">
-									<botton
-										ng-click="contestorToScore.timeScore.minute=speechStopwatch.data.intM;contestorToScore.timeScore.second=speechStopwatch.data.intS;"
+									<botton ng-click="applySpeechStopwatch()"
 										class="btn btn-primary btn-sm">Apply</botton>
 								</div>
 							</div>
 							<div style="padding-top: 15px; clear: both;">
 								<div style="float: left; width: 33%;">
-									<a ng-click='speechStopwatch.start()'> <i
-										class="fa fa-play fa-lg"></i>
+									<a ng-click='speechStopwatch.start()' data-toggle="modal"
+										data-target="#stopwatchModal"> <i class="fa fa-play fa-lg"></i>
 									</a>
 								</div>
 								<div align="center" style="float: left; width: 33%;">
@@ -374,38 +445,57 @@
 									<a ng-click='speechStopwatch.stop()'><i
 										class="fa fa-pause fa-lg"></i></a>
 								</div>
-							</div>
-						<td>
-							<table class="table">
-								<tr>
-									<td>
-										<!-- input size="2" type="text"
+							</div-->
+				</td>
+				<td>
+					<table class="table" style="background: inherit;">
+						<tr>
+							<td>
+								<!-- input size="2" type="text"
 						ng-model="contestorToScore.timeScore.minute"
 						value="{{contestorToScore.timeScore.minute}}"--> <select
-										style="width: 65px;" class="form-control"
-										ng-model="contestorToScore.timeScore.minute"
-										ng-options="value as value for value in minuteRanges">
-									</select>
-									</td>
-									<td>分</td>
-								</tr>
-								<tr>
-									<td>
-										<!-- input size="2" type="text"
+								style="width: 65px;" class="form-control"
+								ng-model="contestorToScore.timeScore.minute"
+								ng-options="value as value for value in minuteRanges">
+							</select>
+							</td>
+							<td>分</td>
+						</tr>
+						<tr>
+							<td>
+								<!-- input size="2" type="text"
 						ng-model="contestorToScore.timeScore.second"
 						value="
 						{{contestorToScore.timeScore.second}}"--> <select
-										style="width: 65px;" class="form-control"
-										ng-model="contestorToScore.timeScore.second"
-										ng-options="value as value for value in secondRanges">
-									</select>
-									</td>
-									<td>秒</td>
-								</tr>
-							</table>
+								style="width: 65px;" class="form-control"
+								ng-model="contestorToScore.timeScore.second"
+								ng-options="value as value for value in secondRanges">
+							</select>
+							</td>
+							<td>秒</td>
+						</tr>
+					</table>
+				</td>
+				</tr>
+				<!-- tr ng-show="isUsingStopwatch">
+						<td>
+							<h1>
+								<span class="label label-warning">{{speechStopwatch.data.m}}:{{speechStopwatch.data.s}}:{{speechStopwatch.data.ms}}</span>
+							</h1>
 						</td>
-					</tr>
-					<!-- tr>
+						<td valign="bottom">
+							<button
+								ng-hide="speechStopwatch.data.isRunning" type="button"
+								class="btn btn-success btn-lg"
+								ng-click="speechStopwatch.start()">Start</button>
+							<button ng-show="speechStopwatch.data.isRunning" type="button"
+								class="btn  btn-danger btn-lg" ng-click="speechStopwatch.stop()">Stop</button>
+							<button ng-hide="speechStopwatch.data.isRunning" type="button"
+								class="btn  btn-info btn-lg" data-dismiss="modal"
+								ng-click="applySpeechStopwatch()">Apply</button>
+						</td>
+					</tr-->
+				<!-- tr>
 						<td><label>點名扣分:</label></td>
 						<td><input
 							ng-model="contestorToScore.scoreMarking.rollCallMarking"
@@ -444,16 +534,14 @@
 							ng-checked="contestorToScore.scoreMarking.absence=='-1'"
 							type="checkbox" /> <label>棄權</label></td>
 					</tr-->
-					<tr>
-						<td aling="left"><button
-								ng-click="cancelScore();speechStopwatch.stop();" type="button"
-								class="btn btn-default btn-lg">Cancel</button></td>
-						<td align="right">
-							<button
-								ng-click="submitScore(contestorToScore);speechStopwatch.stop()"
-								type="button" class="btn btn-primary btn-lg">Save</button>
-						</td>
-					</tr>
+				<tr ng-hide="speechStopwatch.data.isRunning">
+					<td aling="left"><button ng-click="cancelScore()"
+							type="button" class="btn btn-default btn-lg">Cancel</button></td>
+					<td align="right">
+						<button ng-click="submitScore(contestorToScore)" type="button"
+							class="btn btn-primary btn-lg">Save</button>
+					</td>
+				</tr>
 				</tbody>
 			</table>
 
