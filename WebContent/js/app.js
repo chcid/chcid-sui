@@ -1,7 +1,11 @@
 'use strict';
 
-angular.module('speechApp', [ 'ngRoute', 'speechApp.controllers' ]).config(
+angular.module(
+		'speechApp',
+		[ 'ngRoute', 'speechApp.controllers', 'chieffancypants.loadingBar']).config(
 		[ '$routeProvider', function($routeProvider) {
+			
+
 			$routeProvider.when('/scoreMonitor', {
 				templateUrl : 'partials/scoreMonitor.html',
 				controller : 'scoreReportController'

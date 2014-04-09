@@ -183,7 +183,7 @@
 								<th><a href=""
 									ng-click="predicate = 'scoreDiffAfter';
 					reverse=!reverse">總分差後</a></th-->
-								<th>action</th>
+								<!-- th>action</th-->
 							</tr>
 						</thead>
 						<tbody>
@@ -193,16 +193,24 @@
 								<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}},</span></td>
 								<td>{{record.speechTitle}}</td>
 								<td
-									ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}}
+									ng-class="{success:score.speechScore.idspeech_score==justUpdatedId}"
+									ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">
+									<!-- {{score.speechScore.score}}--> <select
+									ng-change="submitScore(record, score.speechScore.idspeech_score)"
+									style="width: 72px;" class="form-control"
+									ng-model="score.speechScore.score"
+									ng-options="value as value for value in scoreRanges">
+										<option value="">-0-</option>
+								</select>
 								</td>
 								<td>{{record.totalScore}}</td>
 								<td>{{record.finalRank}}</td>
 								<!-- td>{{record.scoreDiffBefore}}</td>
 								<td>{{record.scoreDiffAfter}}</td-->
-								<td><a ng-click='doScore(record)'
+								<!-- td><a ng-click='doScore(record)'
 									class="btn btn-default btn-lg" href=""> <i
 										class="fa fa-pencil fa-lg"></i>
-								</a></td>
+								</a></td-->
 							</tr>
 						</tbody>
 					</table>
@@ -328,7 +336,7 @@
 								<th><a href=""
 									ng-click="predicate = 'scoreMarking.absence';
 					reverse=!reverse">不到棄權</a></th>
-								<th>action</th>
+								<!-- th>action</th-->
 							</tr>
 						</thead>
 						<tbody>
@@ -338,21 +346,68 @@
 								<td><span ng-repeat="student in record.students">{{student.chineseLastName}}{{student.chineseFirstName}},</span></td>
 								<td>{{record.speechTitle}}</td>
 								<td
-									ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">{{score.speechScore.score}}
+									ng-class="{success:score.speechScore.idspeech_score==justUpdatedId}"
+									ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">
+									<!-- {{score.speechScore.score}}--> <select
+									ng-change="submitScore(record, score.speechScore.idspeech_score)"
+									style="width: 72px;" class="form-control"
+									ng-model="score.speechScore.score"
+									ng-options="value as value for value in scoreRanges">
+										<option value="">-0-</option>
+								</select>
 								</td>
 								<td>{{record.totalScore}}</td>
 								<td>{{record.finalRank}}</td>
 								<!-- td>{{record.scoreDiffBefore}}</td>
 								<td>{{record.scoreDiffAfter}}</td-->
-								<td>{{record.scoreMarking.rollCallMarking}}</td>
-								<td>{{record.scoreMarking.flashLightMarking}}</td>
-								<td>{{record.scoreMarking.phoneUsed}}</td>
-								<td>{{record.scoreMarking.audienceHelper}}</td>
-								<td>{{record.scoreMarking.absenceText}}</td>
-								<td><a ng-click='doScore(record)'
+								<td><input ng-change="submitScore(record)"
+									ng-model="record.scoreMarking.rollCallMarking"
+									ng-true-value="-1" ng-false-value="0"
+									ng-checked="record.scoreMarking.rollCallMarking=='-1'"
+									type="checkbox" />
+									<h4>
+										<span class="label label-default"
+											ng-class="{'label label-warning':record.scoreMarking.rollCallMarking=='-1'}">{{record.scoreMarking.rollCallMarking}}</span>
+									</h4></td>
+								<td><input ng-change="submitScore(record)"
+									ng-model="record.scoreMarking.flashLightMarking"
+									ng-true-value="-1" ng-false-value="0"
+									ng-checked="record.scoreMarking.flashLightMarking=='-1'"
+									type="checkbox" />
+									<h4>
+										<span class="label label-default"
+											ng-class="{'label label-warning':record.scoreMarking.flashLightMarking=='-1'}">{{record.scoreMarking.flashLightMarking}}</span>
+									</h4></td>
+								<td><input ng-change="submitScore(record)"
+									ng-model="record.scoreMarking.phoneUsed" ng-true-value="-2"
+									ng-false-value="0"
+									ng-checked="record.scoreMarking.phoneUsed=='-2'"
+									type="checkbox" />
+									<h4>
+										<span class="label label-default"
+											ng-class="{'label label-warning':record.scoreMarking.phoneUsed=='-2'}">{{record.scoreMarking.phoneUsed}}</span>
+									</h4></td>
+								<td><input ng-change="submitScore(record)"
+									ng-model="record.scoreMarking.audienceHelper"
+									ng-true-value="-2" ng-false-value="0"
+									ng-checked="record.scoreMarking.audienceHelper=='-2'"
+									type="checkbox" />
+									<h4>
+										<span class="label label-default"
+											ng-class="{'label label-warning':record.scoreMarking.audienceHelper=='-2'}">{{record.scoreMarking.audienceHelper}}</span>
+									</h4></td>
+								<td><input ng-change="submitScore(record)"
+									ng-model="record.scoreMarking.absence" ng-true-value="-1"
+									ng-false-value="0"
+									ng-checked="record.scoreMarking.absence=='-1'" type="checkbox" />
+									<h4>
+										<span class="label label-default"
+											ng-class="{'label label-danger':record.scoreMarking.absence=='-1'}">棄權</span>
+									</h4></td>
+								<!-- td><a ng-click='doScore(record)'
 									class="btn btn-default btn-lg" href=""> <i
 										class="fa fa-pencil fa-lg"></i>
-								</a></td>
+								</a></td-->
 							</tr>
 						</tbody>
 					</table>

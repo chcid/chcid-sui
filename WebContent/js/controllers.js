@@ -75,6 +75,7 @@ angular
 						'$routeParams',
 						function($scope, dataFactory, stopwatch, $routeParams) {
 
+							$scope.justUpdatedId = 0;
 							$scope.isUsingStopwatch = false;
 							$scope.scoreRanges = [];
 							for ( var i = 80; i <= 100; i++) {
@@ -226,7 +227,8 @@ angular
 								$scope.speechStopwatch.stop();
 							};
 
-							$scope.submitScore = function(record) {
+							$scope.submitScore = function(record, id) {
+								$scope.justUpdatedId = id;
 								console.log(record);
 								$scope.speechStopwatch.stop();
 								var tableName = "speech_score";
