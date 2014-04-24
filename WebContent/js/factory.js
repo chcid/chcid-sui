@@ -1,8 +1,11 @@
 /* Factorys */
 
 angular.module('speechApp').factory('dataFactory', [ '$http', function($http) {
-	var urlBase = '/speechservice';
+	//var urlBase = '/speechservice';
+	var urlBase = 'http://speech.autoandychen.cloudbees.net';
 	var dataFactory = {};
+	
+	$http.defaults.useXDomain = true;
 	
 	dataFactory.getContestorsByContestGroupId = function(id) {
 		return $http.get(urlBase+"/"+"contestor/contest_group/" + id);
