@@ -78,6 +78,7 @@ angular
 							$scope.justUpdatedId = 0;
 							$scope.isUsingStopwatch = false;
 							$scope.scoreRanges = [];
+							$scope.isUpdating = false;
 							for ( var i = 80; i <= 100; i++) {
 								$scope.scoreRanges[i - 80] = i;
 							}
@@ -142,6 +143,7 @@ angular
 													$scope.contestorsForJudgeToScore = resultSet;
 													console
 															.log($scope.contestorsForJudgeToScore);
+													$scope.isUpdating = false;
 												})
 										.error(
 												function(error) {
@@ -149,6 +151,7 @@ angular
 															+ "Contestors for Judge to Score"
 															+ ' data: '
 															+ error.message;
+													$scope.isUpdating = false;
 												});
 							};
 
@@ -228,6 +231,7 @@ angular
 							};
 
 							$scope.submitScore = function(record, id) {
+								$scope.isUpdating = true;
 								$scope.justUpdatedId = id;
 								console.log(record);
 								$scope.speechStopwatch.stop();
@@ -248,6 +252,7 @@ angular
 															+ tableName
 															+ ': '
 															+ error.message;
+												$scope.isUpdating = false;
 												});
 								$scope.isScoring = false;
 
