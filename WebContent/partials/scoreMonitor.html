@@ -1,13 +1,12 @@
 <div class="container">
 
-
 	<table class="table">
 		<tbody>
 			<tr>
 				<td><label>Contest Group:</label></td>
 				<td><select ng-change="selectedContestGroupChanged()"
 					class="form-control" ng-model="selectedContestGroup"
-					ng-options="contestGroup.name for contestGroup in contestGroups">
+					ng-options="(contestGroup.contest.name+ ' - ' +contestGroup.name) for contestGroup in contestGroups">
 						<option value="">-- Please Select the Contest Group --</option>
 				</select></td>
 				<td><button ng-disabled="selectedContestGroup==null"
@@ -102,6 +101,8 @@
 									<th>家長提詞 -- 手勢</th>
 
 									<th>不到棄權</th>
+									
+									<th>重覆使用圖片</th>
 								</tr>
 							</thead>
 						</table>
@@ -222,6 +223,7 @@
 									<td>{{contestorScore.scoreMarking.phoneUsed}}</td>
 									<td>{{contestorScore.scoreMarking.audienceHelper}}</td>
 									<td>{{contestorScore.scoreMarking.absenceText}}</td>
+									<td>{{contestorScore.scoreMarking.samePictureUsed}}</td>
 								</tr>
 							</tbody>
 						</table>

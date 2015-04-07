@@ -19,7 +19,7 @@
 							<td><label>比賽組別:</label></td>
 							<td><select class="form-control"
 								ng-model="recordToUpdate.contestGroup"
-								ng-options="contestGroup.name for contestGroup in contestGroups | filter:groupSelectFilterText">
+								ng-options="(contestGroup.contest.name+'-'+contestGroup.name) group by contestGroup.contest.name for contestGroup in contestGroups">
 									<option value="">-- Please Select one --</option>
 							</select></td>
 						</tr>
@@ -80,7 +80,7 @@
 		<tbody>
 			<tr
 				ng-repeat="record in records | filter:filterText | orderBy:predicate:reverse">
-				<td>{{record.contestGroup.name}}</td>
+				<td>{{record.contestGroup.contest.name}}-{{record.contestGroup.name}}</td>
 				<td>{{record.staff.chineseLastName}}{{record.staff.chineseFirstName}}-{{record.staff.englishLastName}},{{record.staff.englishFirstName}}
 				</td>
 				<td>{{record.role.name}}</td>

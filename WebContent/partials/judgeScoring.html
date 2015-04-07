@@ -144,7 +144,7 @@
 					<tr>
 						<td><select ng-change="selectedContestGroupChanged()"
 							class="form-control" ng-model="selectedContestGroup"
-							ng-options="(selectContestGroup.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups | orderBy:'name'">
+							ng-options="(selectContestGroup.contest.name+' - '+selectContestGroup.name+' - '+selectContestGroup.role.name) group by selectContestGroup.contestLocation.name for selectContestGroup in selectContestGroups | orderBy:'name'">
 								<option value="">-- Please Select one --</option>
 						</select></td>
 					</tr>
@@ -336,6 +336,9 @@
 								<th><a href=""
 									ng-click="predicate = 'scoreMarking.absence';
 					reverse=!reverse">不到棄權</a></th>
+								<th><a href=""
+									ng-click="predicate = 'scoreMarking.samePictureUsed';
+					reverse=!reverse">重覆使用圖片</a></th>
 								<!-- th>action</th-->
 							</tr>
 						</thead>
@@ -348,7 +351,8 @@
 								<td
 									ng-class="{success:score.speechScore.idspeech_score==justUpdatedId}"
 									ng-repeat="score in record.scoreRuleItems | orderBy:'priority'">
-									<!-- {{score.speechScore.score}}--> <select ng-disabled="isUpdating"
+									<!-- {{score.speechScore.score}}--> <select
+									ng-disabled="isUpdating"
 									ng-change="submitScore(record, score.speechScore.idspeech_score)"
 									style="width: 72px;" class="form-control"
 									ng-model="score.speechScore.score"
@@ -403,6 +407,15 @@
 									<h4>
 										<span class="label label-default"
 											ng-class="{'label label-danger':record.scoreMarking.absence=='-1'}">棄權</span>
+									</h4></td>
+								<td><input ng-change="submitScore(record)"
+									ng-model="record.scoreMarking.samePictureUsed"
+									ng-true-value="-10" ng-false-value="0"
+									ng-checked="record.scoreMarking.samePictureUsed=='-10'"
+									type="checkbox" />
+									<h4>
+										<span class="label label-default"
+											ng-class="{'label label-warning':record.scoreMarking.samePictureUsed=='-10'}">{{record.scoreMarking.samePictureUsed}}</span>
 									</h4></td>
 								<!-- td><a ng-click='doScore(record)'
 									class="btn btn-default btn-lg" href=""> <i
@@ -697,6 +710,14 @@
 							ng-true-value="-1" ng-false-value="0"
 							ng-checked="contestorToScore.scoreMarking.absence=='-1'"
 							type="checkbox" /> <label>棄權</label></td>
+					</tr>
+					<tr>
+						<td><label>重覆使用圖片:</label></td>
+						<td><input
+							ng-model="contestorToScore.scoreMarking.samePictureUsed"
+							ng-true-value="-10" ng-false-value="0"
+							ng-checked="contestorToScore.scoreMarking.samePictureUsed=='-10'"
+							type="checkbox" /> <label>違規</label></td>
 					</tr>
 					<tr>
 						<td aling="left"><button ng-click="cancelScore();"
